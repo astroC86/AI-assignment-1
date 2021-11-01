@@ -2,6 +2,7 @@ import java.util.ArrayList;
 
 public class EightPuzzle {
     private int[] currentState;
+    private int emptyIndex;
 
     // |0|1|2|
     // |3|4|5|
@@ -16,16 +17,29 @@ public class EightPuzzle {
     private static final int BOTTOM_MIDDLE_INDEX = 7;
     private static final int BOTTOM_RIGHT_INDEX = 8;
 
+    // Bad design. Caller can mutate the array. Keep it simple for now.
     public EightPuzzle(int[] initialState) {
-        // TODO: Is storing the state in a long (states need 4 * 9 bits = 36bits) better? Do it later and see how the improvement looks like.
-        this.currentState = initialState;
-    }
-
-    public boolean isGoalState() {
-        if (currentState.length != 9) {
+        if (initialState.length != 9) {
             throw new java.lang.IllegalStateException();
         }
 
+        // TODO: Is storing the state in a long (states need 4 * 9 bits = 36bits) better? Do it later and see how the improvement looks like.
+        this.currentState = initialState;
+        this.emptyIndex = getEmptyIndex();
+    }
+
+    // Called ONLY once in the constructor and result stored in emptyIndex field.
+    private int getEmptyIndex() {
+        for (int i = 0; i < currentState.length; i++) {
+            if (currentState[i] == 0) {
+                return i;
+            }
+        }
+
+        throw new IllegalStateException();
+    }
+
+    public boolean isGoalState() {
         for (int i = 0; i < currentState.length; i++) {
             if (currentState[i] != i) {
                 return false;
@@ -50,19 +64,7 @@ public class EightPuzzle {
         return new EightPuzzle(newState);
     }
 
-    private int getEmptyIndex() {
-        for (int i = 0; i < currentState.length; i++) {
-            if (currentState[i] == 0) {
-                return i;
-            }
-        }
-
-        throw new IllegalStateException();
-    }
-
     public EightPuzzle[] getNeighbours() {
-        var emptyIndex = getEmptyIndex();
-
         if (emptyIndex == TOP_LEFT_INDEX) {
             return new EightPuzzle[]{
                     takeAction(Action.DOWN, emptyIndex),
