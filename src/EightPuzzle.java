@@ -36,7 +36,7 @@ public class EightPuzzle {
             }
         }
 
-        throw new IllegalStateException();
+        throw new IllegalStateException("State doesn't contain a zero (blank tile).");
     }
 
     public boolean isGoalState() {
@@ -55,7 +55,7 @@ public class EightPuzzle {
             case DOWN -> emptyIndex + 3;
             case LEFT -> emptyIndex - 1;
             case RIGHT -> emptyIndex + 1;
-            default -> throw new IllegalArgumentException();
+            default -> throw new IllegalArgumentException("Action can only be UP, DOWN, LEFT, or RIGHT.");
         };
 
         var newState = currentState.clone();
@@ -118,6 +118,6 @@ public class EightPuzzle {
             };
         }
 
-        throw new IllegalStateException();
+        throw new IllegalStateException("Invalid emptyIndex value.");
     }
 }
