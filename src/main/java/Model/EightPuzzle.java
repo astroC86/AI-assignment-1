@@ -125,7 +125,7 @@ public class EightPuzzle {
         }
 
         final int MAX_TILES = SIDE_LENGTH * SIDE_LENGTH;
-        boolean[] bitmap = new boolean[MAX_TILES + 1];
+        boolean[] bitmap = new boolean[MAX_TILES];
         for (int item : initialState) {
             if (!(bitmap[item] ^= true)) {
                 throw new IllegalStateException("Initial Board State must not contain duplicate values.");

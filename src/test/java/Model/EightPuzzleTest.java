@@ -1,6 +1,7 @@
 package Model;
 
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashSet;
@@ -46,5 +47,13 @@ public class EightPuzzleTest {
                 fail("State:\n" +nb.toString() + " is not present in set.");
             }
         }
+    }
+
+    @Test
+    public void throwsIllegalStateExceptionDueToDuplicates(){
+        IllegalStateException exception = Assertions.assertThrows(
+                IllegalStateException.class, ()->{
+                    new EightPuzzle(new int[]{5,2,8,4,1,7,0,3,8});
+                });
     }
 }
