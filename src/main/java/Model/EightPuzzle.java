@@ -3,12 +3,17 @@ package Model;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 
 public class EightPuzzle {
 
-    private static final int N                 = 3;
-    // A blank tile can move either up (1), down (-1), left (-1), right (1)
+    private static final int SIDE_LENGTH = 3;
+    // Index `i` and index `3-i` represent legal moves in the directions of x and y respectively.
+    // So, possible movements are:
+    //  x, y
+    // -1, 0
+    //  1, 0
+    //  0, 1
+    //  0,-1
     private static final int[] TRANSLATION_ARR = {-1,1,0,0};
 
     private int[] currentState;
@@ -37,8 +42,8 @@ public class EightPuzzle {
 
     public EightPuzzle takeAction(Action action, int emptyIndex) {
         var newEmptyIndex = switch (action) {
-            case UP    -> emptyIndex - N;
-            case DOWN  -> emptyIndex + N;
+            case UP    -> emptyIndex - SIDE_LENGTH;
+            case DOWN  -> emptyIndex + SIDE_LENGTH;
             case LEFT  -> emptyIndex - 1;
             case RIGHT -> emptyIndex + 1;
             default    -> throw new IllegalArgumentException("Model.Action can only be UP, DOWN, LEFT, or RIGHT.");
@@ -52,13 +57,12 @@ public class EightPuzzle {
 
     private int[] arrayCoordinateToBoardCoordinates(int x) {
         // where x is the array index of the blank tile
-        int r = x/N;
-        int c = x - r*N;
-        return new int[]{r, c};
+        int r = x/ SIDE_LENGTH;
+        return new int[]{r, x - r* SIDE_LENGTH};
     }
 
     private int boardCoordinatesToArrayCoordinate(int r, int c) {
-        return c +r*N;
+        return c +r* SIDE_LENGTH;
     }
 
     public Iterable<EightPuzzle> getNeighbours() {
@@ -66,35 +70,26 @@ public class EightPuzzle {
         List<EightPuzzle> neigbourBoards = new ArrayList < > ();
         for (int i = 0; i < 4; i++) {
             if (( blankCoordinate[0] + TRANSLATION_ARR[i] > -1 &&
-                    blankCoordinate[0] + + TRANSLATION_ARR[i] < N ) &&
-                    ( blankCoordinate[1] + TRANSLATION_ARR[N - i ] > -1 &&
-                            blankCoordinate[1] + TRANSLATION_ARR[N - i] < N ) ) {
+                    blankCoordinate[0] + TRANSLATION_ARR[i] < SIDE_LENGTH) &&
+                    ( blankCoordinate[1] + TRANSLATION_ARR[SIDE_LENGTH - i ] > -1 &&
+                            blankCoordinate[1] + TRANSLATION_ARR[SIDE_LENGTH - i] < SIDE_LENGTH) ) {
 
                 var newBlankCoordinate = boardCoordinatesToArrayCoordinate(
                         blankCoordinate[0] + TRANSLATION_ARR[i],
-                        blankCoordinate[1] + TRANSLATION_ARR[N - i]);
+                        blankCoordinate[1] + TRANSLATION_ARR[SIDE_LENGTH - i]);
 
                 var newBoard = new EightPuzzle(this.currentState);
-                swapTiles(newBoard,emptyIndex, newBlankCoordinate);
+
+                newBoard.emptyIndex = newBlankCoordinate;
+
+                int temp = newBoard.currentState[newBoard.emptyIndex];
+                newBoard.currentState[newBoard.emptyIndex] = newBoard.currentState[newBlankCoordinate];
+                newBoard.currentState[newBlankCoordinate] = temp;
 
                 neigbourBoards.add(newBoard);
             }
         }
         return neigbourBoards;
-    }
-
-    private void swapTiles(EightPuzzle board, int index1, int index2) {
-        if(index1 == index2) return;
-
-        if(board.emptyIndex == index1){
-            board.emptyIndex = index2;
-        } else if (board.emptyIndex == index2){
-            board.emptyIndex = index1;
-        }
-
-        int temp                   = board.currentState[index1];
-        board.currentState[index1] = board.currentState[index2];
-        board.currentState[index2] = temp;
     }
 
     public boolean isSolvable(){
@@ -128,7 +123,8 @@ public class EightPuzzle {
         if (initialState.length != 9) {
             throw new IllegalStateException("Initial Board State must be size 9.");
         }
-        final int MAX_TILES = N*N;
+
+        final int MAX_TILES = SIDE_LENGTH * SIDE_LENGTH;
         boolean[] bitmap = new boolean[MAX_TILES + 1];
         for (int item : initialState) {
             if (!(bitmap[item] ^= true)) {
@@ -136,7 +132,6 @@ public class EightPuzzle {
             }
         }
     }
-    public int getDimension() { return N; }
 
     @Override
     public boolean equals(Object o) {
@@ -148,9 +143,7 @@ public class EightPuzzle {
 
     @Override
     public int hashCode() {
-        int result = Objects.hash(emptyIndex);
-        result = 31 * result + Arrays.hashCode(currentState);
-        return result;
+        return  Arrays.hashCode(currentState);
     }
 
     @Override
@@ -158,7 +151,7 @@ public class EightPuzzle {
         StringBuilder s = new StringBuilder();
         for (int i = 0; i < currentState.length; i++) {
             s.append(String.format("%2d ", currentState[i]));
-            if((i+1)%N == 0){ s.append("\n");}
+            if((i+1)% SIDE_LENGTH == 0){ s.append("\n");}
         }
         s.append("\n");
         return s.toString();
