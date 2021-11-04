@@ -20,7 +20,7 @@ public class EightPuzzle {
     // Bad design. Caller can mutate the array. Keep it simple for now.
     public EightPuzzle(int[] initialState) {
         if (initialState.length != 9) {
-            throw new java.lang.IllegalStateException();
+            throw new IllegalStateException("Initial Board State must be size 9.");
         }
 
         // TODO: Is storing the state in a long (states need 4 * 9 bits = 36bits) better? Do it later and see how the improvement looks like.
