@@ -30,6 +30,12 @@ public class EightPuzzle {
         this.emptyIndex = getEmptyIndex();
     }
 
+    private EightPuzzle(int[] initialState, int emptyIndex) {
+        this.currentState = initialState.clone();
+        this.emptyIndex = emptyIndex;
+    }
+
+
     // Called ONLY once in the constructor and result stored in emptyIndex field.
     private int getEmptyIndex() {
         for (int i = 0; i < currentState.length; i++) {
@@ -57,8 +63,8 @@ public class EightPuzzle {
 
     private int[] arrayCoordinateToBoardCoordinates(int x) {
         // where x is the array index of the blank tile
-        int r = x/ SIDE_LENGTH;
-        return new int[]{r, x - r* SIDE_LENGTH};
+        int r = x / SIDE_LENGTH;
+        return new int[] { r, x - r * SIDE_LENGTH };
     }
 
     private int boardCoordinatesToArrayCoordinate(int r, int c) {
@@ -78,9 +84,7 @@ public class EightPuzzle {
                         blankCoordinate[0] + TRANSLATION_ARR[i],
                         blankCoordinate[1] + TRANSLATION_ARR[SIDE_LENGTH - i]);
 
-                var newBoard = new EightPuzzle(this.currentState);
-
-                newBoard.emptyIndex = newBlankCoordinate;
+                var newBoard = new EightPuzzle(this.currentState, newBlankCoordinate);
 
                 int temp = newBoard.currentState[newBoard.emptyIndex];
                 newBoard.currentState[newBoard.emptyIndex] = newBoard.currentState[newBlankCoordinate];
