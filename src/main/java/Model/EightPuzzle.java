@@ -63,7 +63,7 @@ public class EightPuzzle {
 
     private int[] arrayCoordinateToBoardCoordinates(int x) {
         // where x is the array index of the blank tile
-        int r = x/SIDE_LENGTH;
+        int r = x / SIDE_LENGTH;
         return new int[]{r, x - r *SIDE_LENGTH};
     }
 
