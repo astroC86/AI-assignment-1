@@ -15,28 +15,41 @@ import java.util.concurrent.TimeUnit;
 @State(Scope.Benchmark)
 public class EightPuzzleBench {
     @Benchmark
-    public void constructorWithCheck(){
+    public void constructorWithCheckWithCopy(){
         Iterator<Integer[]> boardStates = new EightPuzzleGenerator().BoardGenerator.iterator();
-        for (int i=0; i < 4000;i++){
-//            if(!boardStates.hasNext())
-//                boardStates = new EightPuzzleGenerator().BoardGenerator.iterator();
+        for (int i=0; i < 400000;i++){
             var temp = new MockEightPuzzle();
-//            temp.MockEightPuzzleWithCheck(Arrays.stream(boardStates.next()).mapToInt(Integer::intValue).toArray());
             temp.MockEightPuzzleWithCheck(new int[]{5,2,8,4,1,7,0,3,6});
         }
     }
 
     @Benchmark
-    public void constructorWithoutCheck(){
+    public void constructorWithoutCheckWithCopy(){
         Iterator<Integer[]> boardStates = new EightPuzzleGenerator().BoardGenerator.iterator();
-        for (int i=0; i < 4000 ; i++){
-//            if(!boardStates.hasNext())
-//                boardStates = new EightPuzzleGenerator().BoardGenerator.iterator();
+        for (int i=0; i < 400000 ; i++){
             var temp = new MockEightPuzzle();
-//            temp.MockEightPuzzleWithOutCheck(Arrays.stream(boardStates.next()).mapToInt(Integer::intValue).toArray());
             temp.MockEightPuzzleWithOutCheck(new int[]{5,2,8,4,1,7,0,3,6});
         }
     }
+
+    @Benchmark
+    public void constructorWithoutCheckWithoutCopy(){
+        Iterator<Integer[]> boardStates = new EightPuzzleGenerator().BoardGenerator.iterator();
+        for (int i=0; i < 400000 ; i++){
+            var temp = new MockEightPuzzle();
+            temp.MockEightPuzzleNoCopyNoCheck(new int[]{5,2,8,4,1,7,0,3,6});
+        }
+    }
+
+    @Benchmark
+    public void constructorWithCheckWithoutCopy(){
+        Iterator<Integer[]> boardStates = new EightPuzzleGenerator().BoardGenerator.iterator();
+        for (int i=0; i < 400000 ; i++){
+            var temp = new MockEightPuzzle();
+            temp.MockEightPuzzleNoCopyWithCheck(new int[]{5,2,8,4,1,7,0,3,6});
+        }
+    }
+
 
     private class MockEightPuzzle{
         private static int SIDE_LENGTH =3;
@@ -51,6 +64,17 @@ public class EightPuzzleBench {
 
         public void MockEightPuzzleWithOutCheck(int[] initialState) {
             this.currentState = Arrays.copyOf(initialState, initialState.length);
+            emptyIndex = getEmptyIndex();
+        }
+
+        public void MockEightPuzzleNoCopyNoCheck(int[] initialState) {
+            this.currentState = initialState;
+            emptyIndex = getEmptyIndex();
+        }
+
+        public void MockEightPuzzleNoCopyWithCheck(int[] initialState) {
+            checkState(initialState);
+            this.currentState = initialState;
             emptyIndex = getEmptyIndex();
         }
 
