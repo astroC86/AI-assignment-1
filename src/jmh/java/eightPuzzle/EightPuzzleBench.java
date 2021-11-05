@@ -18,21 +18,23 @@ public class EightPuzzleBench {
     public void constructorWithCheck(){
         Iterator<Integer[]> boardStates = new EightPuzzleGenerator().BoardGenerator.iterator();
         for (int i=0; i < 4000;i++){
-            if(!boardStates.hasNext())
-                boardStates = new EightPuzzleGenerator().BoardGenerator.iterator();
+//            if(!boardStates.hasNext())
+//                boardStates = new EightPuzzleGenerator().BoardGenerator.iterator();
             var temp = new MockEightPuzzle();
-            temp.MockEightPuzzleWithCheck(Arrays.stream(boardStates.next()).mapToInt(Integer::intValue).toArray());
+//            temp.MockEightPuzzleWithCheck(Arrays.stream(boardStates.next()).mapToInt(Integer::intValue).toArray());
+            temp.MockEightPuzzleWithCheck(new int[]{5,2,8,4,1,7,0,3,6});
         }
     }
 
     @Benchmark
     public void constructorWithoutCheck(){
         Iterator<Integer[]> boardStates = new EightPuzzleGenerator().BoardGenerator.iterator();
-        for (int i=0; i < 4000;i++){
-            if(!boardStates.hasNext())
-                boardStates = new EightPuzzleGenerator().BoardGenerator.iterator();
+        for (int i=0; i < 4000 ; i++){
+//            if(!boardStates.hasNext())
+//                boardStates = new EightPuzzleGenerator().BoardGenerator.iterator();
             var temp = new MockEightPuzzle();
-            temp.MockEightPuzzleWithOutCheck(Arrays.stream(boardStates.next()).mapToInt(Integer::intValue).toArray());
+//            temp.MockEightPuzzleWithOutCheck(Arrays.stream(boardStates.next()).mapToInt(Integer::intValue).toArray());
+            temp.MockEightPuzzleWithOutCheck(new int[]{5,2,8,4,1,7,0,3,6});
         }
     }
 
