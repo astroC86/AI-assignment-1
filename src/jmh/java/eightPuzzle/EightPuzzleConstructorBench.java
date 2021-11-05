@@ -13,7 +13,7 @@ import java.util.concurrent.TimeUnit;
 @BenchmarkMode(Mode.AverageTime)
 @OutputTimeUnit(TimeUnit.MILLISECONDS)
 @State(Scope.Benchmark)
-public class EightPuzzleBench {
+public class EightPuzzleConstructorBench {
     @Benchmark
     public void constructorWithCheckWithCopy(){
         Iterator<Integer[]> boardStates = new EightPuzzleGenerator().BoardGenerator.iterator();
