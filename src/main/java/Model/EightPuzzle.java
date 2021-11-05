@@ -30,7 +30,7 @@ public class EightPuzzle {
         this.emptyIndex = getEmptyIndex();
     }
 
-    protected EightPuzzle(int[] initialState , int emptyIndex){
+    private EightPuzzle(int[] initialState, int emptyIndex) {
         this.currentState = initialState.clone();
         this.emptyIndex = emptyIndex;
     }
