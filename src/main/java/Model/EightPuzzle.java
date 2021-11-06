@@ -86,8 +86,8 @@ public class EightPuzzle {
 
                 var newBoard = new EightPuzzle(this.currentState, newBlankCoordinate);
 
-                int temp = newBoard.currentState[newBoard.emptyIndex];
-                newBoard.currentState[newBoard.emptyIndex] = newBoard.currentState[newBlankCoordinate];
+                int temp = newBoard.currentState[emptyIndex];
+                newBoard.currentState[emptyIndex] = newBoard.currentState[newBlankCoordinate];
                 newBoard.currentState[newBlankCoordinate] = temp;
 
                 neigbourBoards.add(newBoard);
