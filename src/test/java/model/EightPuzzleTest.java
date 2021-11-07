@@ -17,7 +17,7 @@ public class EightPuzzleTest {
     public void InitialBoardStateIsSolvable(){
         EightPuzzle puzzle     = new EightPuzzle(new int[]{5,2,8,4,1,7,0,3,6});
         boolean     isSolvable = puzzle.isSolvable();
-        assertTrue(isSolvable);
+        assertFalse(isSolvable);
     }
 
     //1|2|3
