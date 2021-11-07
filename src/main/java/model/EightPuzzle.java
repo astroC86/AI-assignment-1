@@ -4,8 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class EightPuzzle {
-
+public final class EightPuzzle {
     private static final int SIDE_LENGTH = 3;
     // Index `i` and index `3-i` represent legal moves in the directions of x and y respectively.
     // So, possible movements are:
