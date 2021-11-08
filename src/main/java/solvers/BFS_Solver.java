@@ -13,8 +13,8 @@ public final class BFS_Solver {
 
         public SearchNode(EightPuzzle bd) {
             if (bd == null) throw new IllegalArgumentException();
-            this.board    = bd;
-            this.moves    = 0;
+            this.board = bd;
+            this.moves = 0;
         }
 
         public SearchNode(EightPuzzle board, SearchNode prev) {
