@@ -1,13 +1,8 @@
 package solvers;
 
-import model.EightPuzzle;
-import org.xml.sax.SAXNotRecognizedException;
+import Model.EightPuzzle;
 
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.Queue;
-import java.util.Stack;
+import java.util.*;
 
 public class BFS_Solver{
     private class SearchNode {
@@ -50,7 +45,7 @@ public class BFS_Solver{
 
         if(!current.board.isSolvable()) return;
 
-        Stack<SearchNode> frontier = new Stack<>();
+        LinkedList<SearchNode> frontier = new LinkedList<>();
         Set<EightPuzzle> frontierSet = new HashSet<>();
         Set<EightPuzzle> explored  =  new HashSet<>();
 
@@ -58,7 +53,7 @@ public class BFS_Solver{
         frontierSet.add(current.board);
 
         while(!frontier.isEmpty()){
-            current = frontier.remove();
+            current = frontier.removeFirst();
 
             explored.add(current.board);
             frontierSet.remove(current.board);
