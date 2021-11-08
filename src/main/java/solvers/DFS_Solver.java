@@ -36,6 +36,8 @@ public class DFS_Solver {
     }
 
     private SearchNode current;
+    private int nodesExpanded  = 0;
+    private int searchDepth    = 0;
 
     public DFS_Solver(EightPuzzle initialState) {
         if (initialState == null)
@@ -51,6 +53,7 @@ public class DFS_Solver {
 
         frontier.push(current);
         frontierSet.add(current.board);
+        nodesExpanded++;
 
         while(!frontier.isEmpty()){
             current = frontier.pop();
@@ -59,6 +62,7 @@ public class DFS_Solver {
             frontierSet.remove(current.board);
 
             if (current.board.isGoalState()) break;
+
             for (var nb : current.board.getNeighbours()) {
                 if (current.previous == null || !nb.equals(current.previous.board)) {
                     if(!explored.contains(nb) &&  !frontierSet.contains(nb)){
@@ -68,6 +72,8 @@ public class DFS_Solver {
                         }
                         frontier.push(new SearchNode(nb, current));
                         frontierSet.add(nb);
+                        nodesExpanded++;
+                        searchDepth = Integer.max(current.moves + 1, searchDepth);
                     }
                 }
             }
@@ -84,8 +90,7 @@ public class DFS_Solver {
     }
 
     public Iterable<EightPuzzle> solution() {
-        if (!isSolvable())
-            return null;
+        if (!isSolvable()) return null;
         Stack<EightPuzzle> seq = new Stack<>();
         SearchNode runner = current;
         while (runner != null) {
@@ -94,4 +99,13 @@ public class DFS_Solver {
         }
         return seq;
     }
+
+    public int getNumberNodesExpanded() {
+        return nodesExpanded;
+    }
+
+    public int getSearchDepth() {
+        return searchDepth;
+    }
+
 }
