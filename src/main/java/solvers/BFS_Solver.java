@@ -1,5 +1,6 @@
 package solvers;
 
+
 import model.EightPuzzle;
 
 import java.util.*;
