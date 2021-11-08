@@ -1,9 +1,7 @@
 package solvers;
 
 import model.EightPuzzle;
-import org.xml.sax.SAXNotRecognizedException;
 
-import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.Stack;

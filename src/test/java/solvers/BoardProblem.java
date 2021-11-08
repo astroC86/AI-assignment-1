@@ -42,13 +42,12 @@ public class BoardProblem {
             }
 
             solutionSteps.add(temp.toArray(new Integer[0]));
-            moves++;
         }
+        this.moves = solutionSteps.size() - 1;
     }
 
     public int getMoves() {
-        if (solvable) return moves;
-        else          return -1;
+        return moves;
     }
 
     public int[] getInitialState() {
