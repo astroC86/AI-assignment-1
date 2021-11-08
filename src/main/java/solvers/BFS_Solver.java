@@ -36,14 +36,14 @@ public final class BFS_Solver {
 
     private SearchNode current;
 
-    public BFS_Solver(EightPuzzle initialState){
+    public BFS_Solver(EightPuzzle initialState) {
 
         if (initialState == null)
             throw new IllegalArgumentException();
 
         current = new SearchNode(initialState);
 
-        if(!current.board.isSolvable()) return;
+        if (!current.board.isSolvable()) return;
 
         LinkedList<SearchNode> frontier = new LinkedList<>();
         Set<EightPuzzle> frontierSet = new HashSet<>();
@@ -52,7 +52,7 @@ public final class BFS_Solver {
         frontier.add(current);
         frontierSet.add(current.board);
 
-        while(!frontier.isEmpty()){
+        while (!frontier.isEmpty()) {
             current = frontier.removeFirst();
 
             explored.add(current.board);
@@ -68,8 +68,8 @@ public final class BFS_Solver {
                 }
             }
         }
-
     }
+
     public int moves() {
         if (!isSolvable()) return -1;
         return this.current.moves;
