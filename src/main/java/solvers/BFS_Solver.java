@@ -5,8 +5,8 @@ import model.EightPuzzle;
 
 import java.util.*;
 
-public class BFS_Solver{
-    private class SearchNode {
+public final class BFS_Solver {
+    private final class SearchNode {
         private final int   moves;
         private final EightPuzzle board;
         private SearchNode  previous;
