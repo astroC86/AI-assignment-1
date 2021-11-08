@@ -36,7 +36,6 @@ public final class BFS_Solver {
 
     private SearchNode current;
 
-
     public BFS_Solver(EightPuzzle initialState){
 
         if (initialState == null)
