@@ -64,6 +64,10 @@ public class DFS_Solver {
             for (var nb : current.board.getNeighbours()) {
                 if (current.previous == null || !nb.equals(current.previous.board)) {
                     if(!explored.contains(nb) &&  !frontierSet.contains(nb)){
+                        if (nb.isGoalState()) {
+                            current = new SearchNode(nb, current);
+                            return;
+                        }
                         frontier.push(new SearchNode(nb, current));
                         frontierSet.add(nb);
                     }
