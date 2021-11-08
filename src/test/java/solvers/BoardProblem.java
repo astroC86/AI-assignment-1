@@ -1,5 +1,7 @@
 package solvers;
 
+import model.EightPuzzle;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -8,7 +10,7 @@ public class BoardProblem {
 
     private  int moves = 0;
     private List<Integer> initialState;
-    private List<Integer[]> solutionSteps;
+    private List<EightPuzzle> solutionSteps;
     private boolean solvable = true;
 
     public BoardProblem(File board, File boardSln) throws IOException {
@@ -41,9 +43,13 @@ public class BoardProblem {
                 temp.add(Integer.parseInt(s));
             }
 
-            solutionSteps.add(temp.toArray(new Integer[0]));
+            solutionSteps.add(new EightPuzzle(temp.stream().mapToInt(Integer::intValue).toArray()));
         }
         this.moves = solutionSteps.size() - 1;
+    }
+
+    public boolean isSolvable(){
+        return solvable;
     }
 
     public int getMoves() {
@@ -54,7 +60,7 @@ public class BoardProblem {
         return initialState.stream().mapToInt(Integer::intValue).toArray();
     }
 
-    public List<Integer[]> getSolutionSteps() {
+    public List<EightPuzzle> getSolutionSteps() {
         return solutionSteps;
     }
 }
