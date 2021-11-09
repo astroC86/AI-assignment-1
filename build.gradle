@@ -1,6 +1,7 @@
 plugins {
     id 'java'
-    id 'org.openjfx.javafxplugin' version '0.0.8'
+    id 'application'
+    id 'org.openjfx.javafxplugin' version '0.0.10'
 }
 
 group 'org.example'
@@ -19,14 +20,12 @@ dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter:5.8.1'
 }
 
-// define once we have main class
-//mainClassName = "$moduleName/Main"
-
 javafx {
     version = "14"
-    modules = [ 'javafx.controls', 'javafx.fxml']
+    modules = [ 'javafx.base', 'javafx.controls', 'javafx.fxml']
 }
 
+mainClassName = "gui.Main"
 
 test {
     useJUnitPlatform()
