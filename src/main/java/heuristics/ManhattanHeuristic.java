@@ -15,6 +15,9 @@ public final class ManhattanHeuristic implements Heuristic {
             currPos = i;
             targetPos = state.getNumberAtIndex(i);
 
+            if(targetPos == 0)
+                continue;
+
             boardCoord = state.arrayCoordinateToBoardCoordinates(currPos);
             currR = boardCoord[0] ;
             currC = boardCoord[1] ;
