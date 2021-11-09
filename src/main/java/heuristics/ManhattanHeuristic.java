@@ -6,7 +6,6 @@ import java.lang.Math;
 public final class ManhattanHeuristic implements Heuristic {
     @Override
     public double evaluate(EightPuzzle state) {
-        // TODO: Implement
         int sumMH = 0 ;// heuristic
         int currPos, targetPos, currR, currC, targetR, targetC; // stands for row and column
         int[] boardCoord;
