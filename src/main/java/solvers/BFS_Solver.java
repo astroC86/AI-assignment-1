@@ -79,7 +79,7 @@ public final class BFS_Solver {
         return current.board.isSolvable();
     }
 
-    public Iterable<EightPuzzle> solution() {
+    public Stack<EightPuzzle> solution() {
         if (!isSolvable())
             return null;
         Stack<EightPuzzle> seq = new Stack<>();

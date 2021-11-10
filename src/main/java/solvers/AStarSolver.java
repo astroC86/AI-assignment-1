@@ -51,10 +51,14 @@ public final class AStarSolver {
         double h = heuristic.evaluate(initialState);
 
         var frontier = new PriorityQueue<AStarNode>();
-        frontier.add(new AStarNode(initialState, 0, h));
+        var frontierHashSet = new HashSet<AStarNode>();
+        var initialNode = new AStarNode(initialState, 0, h);
+        frontier.add(initialNode);
+        frontierHashSet.add(initialNode);
         var explored = new HashSet<EightPuzzle>();
         while (!frontier.isEmpty()) {
             var node = frontier.remove();
+            frontierHashSet.remove(node);
             var state = node.state();
             explored.add(state);
 
@@ -64,14 +68,17 @@ public final class AStarSolver {
 
             for (var neighbour : state.getNeighbours()) {
                 var newNode = new AStarNode(neighbour, node, node.g() + 1, heuristic.evaluate(neighbour));
-                var frontierContainsNewNode = frontier.contains(newNode);
+                var frontierContainsNewNode = frontierHashSet.contains(newNode);
                 if (!frontierContainsNewNode && !explored.contains(neighbour)) {
                     frontier.add(newNode);
+                    frontierHashSet.add(newNode);
                 }
                 else if (frontierContainsNewNode) {
-                    var isRemoved = frontier.removeIf(n -> n.g() + n.h() > newNode.g() + newNode.h());
+                    var isRemoved = frontier.removeIf(n -> n.state().equals(newNode.state()) && n.g() + n.h() > newNode.g() + newNode.h());
                     if (isRemoved) {
                         frontier.add(newNode);
+                        // There is no need to touch frontierHashSet in this code path.
+                        // We don't use the cost of hash set nodes.
                     }
                 }
             }
