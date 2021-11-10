@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
 // Hacky approach due to JavaFX runtime components are missing error:
@@ -15,9 +16,10 @@ public class Main {
         @Override
         public void start(Stage primaryStage) throws Exception {
             Parent root = new FXMLLoader(Main.class.getResource("/main.fxml")).load();
-
-            primaryStage.setTitle("Hello World");
-            primaryStage.setScene(new Scene(root, 300, 275));
+            primaryStage.setTitle("Eight Puzzle (Assignment 1)");
+            var scene = new Scene(root, 300, 275);
+            primaryStage.setScene(scene);
+            //((HBox)scene.lookup("#myhbox"));
             primaryStage.show();
         }
 

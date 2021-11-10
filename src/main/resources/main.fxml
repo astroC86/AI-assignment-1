@@ -6,9 +6,60 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="gui.Main"
-            prefHeight="400.0" prefWidth="600.0">
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.shape.Rectangle?>
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="gui.Main"
+      prefHeight="400.0" prefWidth="600.0"
+      spacing="10">
+    <HBox style="-fx-background-color: red;" alignment="CENTER">
+        <GridPane alignment="center" style="-fx-background-color: blue;" hgap="2" vgap="2">
+            <StackPane GridPane.columnIndex="0" GridPane.rowIndex="0">
+                <Rectangle width="50" height="50" opacity="0" />
+                <Text id="element0" text="0" style="-fx-font-size: 30pt;" />
+            </StackPane>
+            <StackPane GridPane.columnIndex="1" GridPane.rowIndex="0">
+                <Rectangle width="50" height="50" opacity="0" />
+                <Text id="element1" text="1" style="-fx-font-size: 30pt;" />
+            </StackPane>
+            <StackPane GridPane.columnIndex="2" GridPane.rowIndex="0">
+                <Rectangle width="50" height="50" opacity="0" />
+                <Text id="element2" text="2" style="-fx-font-size: 30pt;" />
+            </StackPane>
 
-</AnchorPane>
+            <StackPane GridPane.columnIndex="0" GridPane.rowIndex="1">
+                <Rectangle width="50" height="50" opacity="0" />
+                <Text id="element3" text="3" style="-fx-font-size: 30pt;" />
+            </StackPane>
+            <StackPane GridPane.columnIndex="1" GridPane.rowIndex="1">
+                <Rectangle width="50" height="50" opacity="0" />
+                <Text id="element4" text="4" style="-fx-font-size: 30pt;" />
+            </StackPane>
+            <StackPane GridPane.columnIndex="2" GridPane.rowIndex="1">
+                <Rectangle width="50" height="50" opacity="0" />
+                <Text id="element5" text="5" style="-fx-font-size: 30pt;;" />
+            </StackPane>
+
+            <StackPane GridPane.columnIndex="0" GridPane.rowIndex="2">
+                <Rectangle width="50" height="50" opacity="0" />
+                <Text id="element6" text="6" style="-fx-font-size: 30pt;" />
+            </StackPane>
+            <StackPane GridPane.columnIndex="1" GridPane.rowIndex="2">
+                <Rectangle width="50" height="50" opacity="0" />
+                <Text id="element7" text="7" style="-fx-font-size: 30pt;" />
+            </StackPane>
+            <StackPane GridPane.columnIndex="2" GridPane.rowIndex="2">
+                <Rectangle width="50" height="50" opacity="0" />
+                <Text id="element8" text="8" style="-fx-font-size: 30pt;" />
+            </StackPane>
+
+        </GridPane>
+    </HBox>
+    <HBox alignment="CENTER" spacing="10">
+        <Button text="&lt;&lt;" style="-fx-font-size: 18pt;" />
+        <Button text="&lt;" style="-fx-font-size: 18pt;" />
+        <Button text="&gt;" style="-fx-font-size: 18pt;" />
+        <Button text="&gt;&gt;" style="-fx-font-size: 18pt;" />
+    </HBox>
+</VBox>
