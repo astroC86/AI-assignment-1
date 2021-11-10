@@ -24,8 +24,7 @@ public final class EuclideanHeuristic implements Heuristic {
             targetR = boardCoord[0];
             targetC = boardCoord[1];
 
-            sumMH += Math.sqrt((Math.abs(targetR - currR)) ^ 2 + (Math.abs(targetC - currC)) ^ 2);
-
+            sumMH += Math.sqrt(Math.pow(Math.abs(targetR - currR),2) + Math.pow(Math.abs(targetC - currC),2));
         }
 
         return sumMH;
