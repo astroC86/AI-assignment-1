@@ -71,7 +71,7 @@ public final class BFS_Solver {
     }
 
     public int moves() {
-        if (!isSolvable()) return 0;
+        if (!isSolvable()) return -1;
         return this.current.moves;
     }
 
@@ -82,7 +82,14 @@ public final class BFS_Solver {
     public EightPuzzle[] solution() {
         // If we took two steps, then we have three states, etc..
         // ie, the number of states we have is the cost + 1.
-        var result = new EightPuzzle[moves() + 1];
+        var moves = moves();
+        if (moves == -1) {
+            // For the purpose of the solution, if we have an unsolvable board, we want
+            // to produce an array containing only the initial state.
+            moves = 0;
+        }
+
+        var result = new EightPuzzle[moves + 1];
         var node = current;
         for (int i = result.length - 1; i >= 0; i--) {
             result[i] = node.board;
