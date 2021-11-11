@@ -52,6 +52,10 @@ public final class EightPuzzle {
         }
     }
 
+    public int getNumberAtIndex(int index){
+        return currentState[index];
+    }
+
     // Called ONLY once in the constructor and result stored in emptyIndex field.
     private int getEmptyIndex() {
         for (int i = 0; i < currentState.length; i++) {
@@ -77,13 +81,13 @@ public final class EightPuzzle {
         return new EightPuzzle(newState);
     }
 
-    private int[] arrayCoordinateToBoardCoordinates(int x) {
+    public int[] arrayCoordinateToBoardCoordinates(int x) {
         // where x is the array index of the blank tile
         int r = x / SIDE_LENGTH;
         return new int[]{r, x - r * SIDE_LENGTH};
     }
 
-    private int boardCoordinatesToArrayCoordinate(int r, int c) {
+    public int boardCoordinatesToArrayCoordinate(int r, int c) {
         return c + r * SIDE_LENGTH;
     }
 
