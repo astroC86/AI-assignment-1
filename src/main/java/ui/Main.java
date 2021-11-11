@@ -1,15 +1,18 @@
-package gui;
+package ui;
 
+import com.jfoenix.controls.JFXComboBox;
 import heuristics.EuclideanHeuristic;
 import heuristics.Heuristic;
 import heuristics.ManhattanHeuristic;
 import javafx.application.Application;
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
@@ -22,49 +25,48 @@ import solvers.BFS_Solver;
 import solvers.DFS_Solver;
 import solvers.UnresolvableBoardException;
 
-import javax.swing.plaf.nimbus.State;
-import java.util.Stack;
+import java.util.Objects;
 
 // Hacky approach due to JavaFX runtime components are missing error:
 // https://stackoverflow.com/questions/59771324/error-javafx-runtime-components-are-missing-and-are-required-to-run-this-appli
 public class Main {
     @FXML
     private TextField inputState;
-
     @FXML
     private Text element0;
-
     @FXML
     private Text element1;
-
     @FXML
     private Text element2;
-
     @FXML
     private Text element3;
-
     @FXML
     private Text element4;
-
     @FXML
     private Text element5;
-
     @FXML
     private Text element6;
-
     @FXML
     private Text element7;
-
     @FXML
     private Text element8;
 
     @FXML
+    private JFXComboBox<Solvers> solversCmboBox;
+
+
+    @FXML
+    private Text expndedNodesLbl;
+    @FXML
+    private Text srchDpthLbl;
+    @FXML
+    private Text runningTimeLbl;
+
+
+    @FXML
     private Text ithOfTotal;
-
     private EightPuzzle eightPuzzle;
-
     private StateNavigator navigator;
-
 
     private String toStringHelper(int number) {
         if (number == 0) {
@@ -74,7 +76,7 @@ public class Main {
         return String.valueOf(number);
     }
 
-    public void loadState(MouseEvent mouseEvent) {
+    public void loadStateAndRun(MouseEvent mouseEvent) {
         var text = inputState.getText();
         if (text.length() != 9) {
             new Alert(Alert.AlertType.WARNING, "Invalid input length. Should have length of 9.").showAndWait();
@@ -102,8 +104,49 @@ public class Main {
             new Alert(Alert.AlertType.WARNING, e.getMessage()).showAndWait();
             return;
         }
+        Solvers alg = solversCmboBox.getValue();
+        if(alg == null){
+            new Alert(Alert.AlertType.WARNING, "Choose an algorithm.").showAndWait();
+            return;
+        }else{
+            long startTime = System.currentTimeMillis();
+            switch (alg) {
+                case DFS -> {
+                    solveDFS();
+                }
+                case BFS -> {
+                    solveBFS();
+                }
+                case AStarEuclidean -> {
+                    solveAStarEuclidean();
+                }
+                case AStarManhattan -> {
+                    solveAStarManhattan();
+                }
+                default -> new Alert(Alert.AlertType.WARNING, "Invalid Algorithm").showAndWait();
+            }
+            long stopTime = System.currentTimeMillis();
+            updateRunningTime(stopTime - startTime);
+            updateExpandedNodes(9);
+            updateSearchDepth(9);
+        }
+
     }
 
+    private void updateSearchDepth(int i) {
+        srchDpthLbl.setText("");
+        srchDpthLbl.setText(String.valueOf(i));
+    }
+
+    private void updateExpandedNodes(int i) {
+        expndedNodesLbl.setText("");
+        expndedNodesLbl.setText(String.valueOf(i));
+    }
+
+    private void updateRunningTime(long time){
+        runningTimeLbl.setText("");
+        runningTimeLbl.setText(time +" ms");
+    }
     private void showState(EightPuzzle state) {
         element0.setText(toStringHelper(state.getNumberAtIndex(0)));
         element1.setText(toStringHelper(state.getNumberAtIndex(1)));
@@ -122,7 +165,7 @@ public class Main {
         }
     }
 
-    public void solveDFS(MouseEvent mouseEvent) {
+    public void solveDFS() {
         if (eightPuzzle == null) {
             new Alert(Alert.AlertType.WARNING, "Load an initial state").showAndWait();
             return;
@@ -133,7 +176,7 @@ public class Main {
         showCurrent();
     }
 
-    public void solveBFS(MouseEvent mouseEvent) {
+    public void solveBFS() {
         if (eightPuzzle == null) {
             new Alert(Alert.AlertType.WARNING, "Load an initial state").showAndWait();
             return;
@@ -160,13 +203,14 @@ public class Main {
         }
     }
 
-    public void solveAStarManhattan(MouseEvent mouseEvent) {
+    public void solveAStarManhattan() {
         solveAStar(new ManhattanHeuristic());
     }
 
-    public void solveAStarEuclidean(MouseEvent mouseEvent) {
+    public void solveAStarEuclidean() {
         solveAStar(new EuclideanHeuristic());
     }
+
 
     public void showCurrent() {
         if (navigator == null) {
@@ -210,6 +254,12 @@ public class Main {
 
         navigator.goLast();
         showCurrent();
+    }
+
+    @FXML
+    void initialize() {
+        solversCmboBox.setItems(FXCollections.observableArrayList(Solvers.values()));
+
     }
 
     public static class MainInner extends Application {

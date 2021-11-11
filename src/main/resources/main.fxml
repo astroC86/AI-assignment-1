@@ -1,80 +1,138 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
+<?import com.jfoenix.controls.*?>
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
 
-<?import javafx.scene.text.Text?>
-<?import javafx.scene.shape.Rectangle?>
-<?import javafx.geometry.Insets?>
-<VBox xmlns="http://javafx.com/javafx"
-      xmlns:fx="http://javafx.com/fxml"
-      fx:controller="gui.Main"
-      spacing="10">
+<VBox spacing="10" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.Main">
 
     <HBox spacing="5">
-        <Text text="Initial state (e.g: 102345678):" />
-        <TextField fx:id="inputState" />
-        <Button text="Load state" onMouseClicked="#loadState" />
+        <Label text="Initial state :">
+         <HBox.margin>
+            <Insets left="10.0" />
+         </HBox.margin></Label>
+        <TextField fx:id="inputState" promptText="e.g: 102345678" />
+      <VBox.margin>
+         <Insets top="10.0" />
+      </VBox.margin>
     </HBox>
-    <HBox alignment="CENTER">
+   <HBox prefHeight="0.0" prefWidth="609.0">
+      <children>
+         <Label text="Solver:">
+            <opaqueInsets>
+               <Insets />
+            </opaqueInsets>
+            <HBox.margin>
+               <Insets left="10.0" />
+            </HBox.margin>
+         </Label>
+         <JFXComboBox fx:id="solversCmboBox" prefHeight="24.0" prefWidth="166.0">
+            <HBox.margin>
+               <Insets left="43.0" />
+            </HBox.margin></JFXComboBox>
+         <JFXButton onMouseClicked="#loadStateAndRun" style="-fx-background-color: #f1c40f;" text="Run" textFill="#fffbfb">
+            <HBox.margin>
+               <Insets left="20.0" />
+            </HBox.margin></JFXButton>
+      </children>
+   </HBox>
+    <HBox alignment="CENTER" prefHeight="154.0" prefWidth="500.0">
         <GridPane alignment="center" hgap="2" vgap="2">
             <StackPane GridPane.columnIndex="0" GridPane.rowIndex="0">
-                <Rectangle width="50" height="50" opacity="0" />
+                <Rectangle height="50" opacity="0" width="50" />
                 <Text fx:id="element0" style="-fx-font-size: 30pt;" />
             </StackPane>
             <StackPane GridPane.columnIndex="1" GridPane.rowIndex="0">
-                <Rectangle width="50" height="50" opacity="0" />
+                <Rectangle height="50" opacity="0" width="50" />
                 <Text fx:id="element1" style="-fx-font-size: 30pt;" />
             </StackPane>
             <StackPane GridPane.columnIndex="2" GridPane.rowIndex="0">
-                <Rectangle width="50" height="50" opacity="0" />
+                <Rectangle height="50" opacity="0" width="50" />
                 <Text fx:id="element2" style="-fx-font-size: 30pt;" />
             </StackPane>
 
             <StackPane GridPane.columnIndex="0" GridPane.rowIndex="1">
-                <Rectangle width="50" height="50" opacity="0" />
+                <Rectangle height="50" opacity="0" width="50" />
                 <Text fx:id="element3" style="-fx-font-size: 30pt;" />
             </StackPane>
             <StackPane GridPane.columnIndex="1" GridPane.rowIndex="1">
-                <Rectangle width="50" height="50" opacity="0" />
+                <Rectangle height="50" opacity="0" width="50" />
                 <Text fx:id="element4" style="-fx-font-size: 30pt;" />
             </StackPane>
             <StackPane GridPane.columnIndex="2" GridPane.rowIndex="1">
-                <Rectangle width="50" height="50" opacity="0" />
+                <Rectangle height="50" opacity="0" width="50" />
                 <Text fx:id="element5" style="-fx-font-size: 30pt;;" />
             </StackPane>
 
             <StackPane GridPane.columnIndex="0" GridPane.rowIndex="2">
-                <Rectangle width="50" height="50" opacity="0" />
+                <Rectangle height="50" opacity="0" width="50" />
                 <Text fx:id="element6" style="-fx-font-size: 30pt;" />
             </StackPane>
             <StackPane GridPane.columnIndex="1" GridPane.rowIndex="2">
-                <Rectangle width="50" height="50" opacity="0" />
+                <Rectangle height="50" opacity="0" width="50" />
                 <Text fx:id="element7" style="-fx-font-size: 30pt;" />
             </StackPane>
             <StackPane GridPane.columnIndex="2" GridPane.rowIndex="2">
-                <Rectangle width="50" height="50" opacity="0" />
+                <Rectangle height="50" opacity="0" width="50" />
                 <Text fx:id="element8" style="-fx-font-size: 30pt;" />
             </StackPane>
+         <columnConstraints>
+            <ColumnConstraints />
+            <ColumnConstraints />
+            <ColumnConstraints />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+         </rowConstraints>
 
         </GridPane>
     </HBox>
     <HBox alignment="CENTER" spacing="10">
-        <Button text="&lt;&lt;" style="-fx-font-size: 18pt;" onMouseClicked="#goFirst" />
-        <Button text="&lt;" style="-fx-font-size: 18pt;" onMouseClicked="#goPrevious" />
-        <Button text="&gt;" style="-fx-font-size: 18pt;" onMouseClicked="#goNext" />
-        <Button text="&gt;&gt;" style="-fx-font-size: 18pt;" onMouseClicked="#goLast" />
+        <JFXButton onMouseClicked="#goFirst" style="-fx-font-size: 18pt;" text="&lt;&lt;" />
+        <JFXButton onMouseClicked="#goPrevious" style="-fx-font-size: 18pt;" text="&lt;" />
+        <JFXButton onMouseClicked="#goNext" style="-fx-font-size: 18pt;" text="&gt;" />
+        <JFXButton onMouseClicked="#goLast" style="-fx-font-size: 18pt;" text="&gt;&gt;" />
     </HBox>
     <HBox alignment="CENTER">
         <Text fx:id="ithOfTotal" /> <!-- e.g, 5 of 27 -->
     </HBox>
-    <HBox alignment="CENTER" spacing="10">
-        <Button text="DFS" style="-fx-font-size: 18pt;" onMouseClicked="#solveDFS" />
-        <Button text="BFS" style="-fx-font-size: 18pt;" onMouseClicked="#solveBFS" />
-        <Button text="A* (Manhattan)" style="-fx-font-size: 18pt;" onMouseClicked="#solveAStarManhattan" />
-        <Button text="A* (Euclidean)" style="-fx-font-size: 18pt;" onMouseClicked="#solveAStarEuclidean" />
-    </HBox>
+   <HBox prefHeight="0.0" prefWidth="609.0" spacing="5.0">
+      <children>
+         <HBox prefHeight="26.0" prefWidth="609.0">
+            <children>
+               <Label text="Running Time:      ">
+                  <HBox.margin>
+                     <Insets left="10.0" />
+                  </HBox.margin>
+               </Label>
+               <Text fx:id="runningTimeLbl" text="0 ms" />
+            </children>
+         </HBox>
+         <HBox prefHeight="19.0" prefWidth="609.0">
+            <children>
+               <Label text="Nodes Expanded: ">
+                  <HBox.margin>
+                     <Insets left="10.0" />
+                  </HBox.margin>
+               </Label>
+               <Text fx:id="expndedNodesLbl" text="0" />
+            </children>
+         </HBox>
+         <HBox prefHeight="24.0" prefWidth="609.0">
+            <children>
+               <Label text="Search depth:       ">
+                  <HBox.margin>
+                     <Insets bottom="10.0" left="10.0" />
+                  </HBox.margin>
+               </Label>
+               <Text fx:id="srchDpthLbl" text="0" />
+            </children>
+         </HBox>
+      </children>
+   </HBox>
 </VBox>
