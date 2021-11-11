@@ -127,8 +127,7 @@ public class Main {
             }
             long stopTime = System.currentTimeMillis();
             updateRunningTime(stopTime - startTime);
-            updateExpandedNodes(9);
-            updateSearchDepth(9);
+
         }
 
     }
@@ -174,6 +173,8 @@ public class Main {
         var solver = new DFS_Solver(eightPuzzle);
         navigator = new StateNavigator(solver.solution());
         showCurrent();
+        updateExpandedNodes(9);
+        updateSearchDepth(9);
     }
 
     public void solveBFS() {
@@ -185,6 +186,8 @@ public class Main {
         var solver = new BFS_Solver(eightPuzzle);
         navigator = new StateNavigator(solver.solution());
         showCurrent();
+        updateExpandedNodes(9);
+        updateSearchDepth(9);
     }
 
     private void solveAStar(Heuristic heuristic) {
@@ -197,6 +200,8 @@ public class Main {
             var states = AStarSolver.solve(eightPuzzle, heuristic);
             navigator = new StateNavigator(states);
             showCurrent();
+            updateExpandedNodes(9);
+            updateSearchDepth(9);
         }
         catch (UnresolvableBoardException e) {
             new Alert(Alert.AlertType.WARNING, e.getMessage()).showAndWait();
