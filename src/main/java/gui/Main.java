@@ -1,6 +1,7 @@
 package gui;
 
 import heuristics.EuclideanHeuristic;
+import heuristics.Heuristic;
 import heuristics.ManhattanHeuristic;
 import javafx.application.Application;
 import javafx.fxml.FXML;
@@ -15,17 +16,18 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import model.EightPuzzle;
+import model.StateNavigator;
 import solvers.AStarSolver;
 import solvers.BFS_Solver;
 import solvers.DFS_Solver;
 import solvers.UnresolvableBoardException;
 
+import javax.swing.plaf.nimbus.State;
 import java.util.Stack;
 
 // Hacky approach due to JavaFX runtime components are missing error:
 // https://stackoverflow.com/questions/59771324/error-javafx-runtime-components-are-missing-and-are-required-to-run-this-appli
 public class Main {
-
     @FXML
     private TextField inputState;
 
@@ -61,8 +63,7 @@ public class Main {
 
     private EightPuzzle eightPuzzle;
 
-    private Stack<EightPuzzle> forwardStack;
-    private Stack<EightPuzzle> backwardStack;
+    private StateNavigator navigator;
 
 
     private String toStringHelper(int number) {
@@ -93,6 +94,8 @@ public class Main {
 
         try {
             eightPuzzle = new EightPuzzle(state);
+            // Clear the previous navigator (if any), which can be of another state. Must be done before showState.
+            navigator = null;
             showState(eightPuzzle);
         }
         catch (Exception e) {
@@ -111,6 +114,12 @@ public class Main {
         element6.setText(toStringHelper(state.getNumberAtIndex(6)));
         element7.setText(toStringHelper(state.getNumberAtIndex(7)));
         element8.setText(toStringHelper(state.getNumberAtIndex(8)));
+        if (navigator == null) {
+            ithOfTotal.setText("");
+        }
+        else {
+            ithOfTotal.setText(String.format("%d of %d", navigator.getCurrentIndex() + 1, navigator.countStates()));
+        }
     }
 
     public void solveDFS(MouseEvent mouseEvent) {
@@ -120,9 +129,8 @@ public class Main {
         }
 
         var solver = new DFS_Solver(eightPuzzle);
-        forwardStack = solver.solution();
-        backwardStack = new Stack<EightPuzzle>();
-        goNext(null);
+        navigator = new StateNavigator(solver.solution());
+        showCurrent();
     }
 
     public void solveBFS(MouseEvent mouseEvent) {
@@ -132,61 +140,76 @@ public class Main {
         }
 
         var solver = new BFS_Solver(eightPuzzle);
-        forwardStack = solver.solution();
-        backwardStack = new Stack<EightPuzzle>();
-        goNext(null);
+        navigator = new StateNavigator(solver.solution());
+        showCurrent();
+    }
+
+    private void solveAStar(Heuristic heuristic) {
+        if (eightPuzzle == null) {
+            new Alert(Alert.AlertType.WARNING, "Load an initial state").showAndWait();
+            return;
+        }
+
+        try {
+            var states = AStarSolver.solve(eightPuzzle, heuristic);
+            navigator = new StateNavigator(states);
+            showCurrent();
+        }
+        catch (UnresolvableBoardException e) {
+            new Alert(Alert.AlertType.WARNING, e.getMessage()).showAndWait();
+        }
     }
 
     public void solveAStarManhattan(MouseEvent mouseEvent) {
-        if (eightPuzzle == null) {
-            new Alert(Alert.AlertType.WARNING, "Load an initial state").showAndWait();
-            return;
-        }
-
-        try {
-            forwardStack = AStarSolver.solve(eightPuzzle, new ManhattanHeuristic());
-            backwardStack = new Stack<EightPuzzle>();
-            goNext(null);
-        }
-        catch (UnresolvableBoardException e) {
-            new Alert(Alert.AlertType.WARNING, e.getMessage()).showAndWait();
-        }
+        solveAStar(new ManhattanHeuristic());
     }
 
     public void solveAStarEuclidean(MouseEvent mouseEvent) {
-        if (eightPuzzle == null) {
-            new Alert(Alert.AlertType.WARNING, "Load an initial state").showAndWait();
+        solveAStar(new EuclideanHeuristic());
+    }
+
+    public void showCurrent() {
+        if (navigator == null) {
             return;
         }
 
-        try {
-            forwardStack = AStarSolver.solve(eightPuzzle, new EuclideanHeuristic());
-            backwardStack = new Stack<EightPuzzle>();
-            goNext(null);
-        }
-        catch (UnresolvableBoardException e) {
-            new Alert(Alert.AlertType.WARNING, e.getMessage()).showAndWait();
-        }
+        showState(navigator.getCurrent());
     }
 
     public void goNext(MouseEvent mouseEvent) {
-        if (forwardStack == null || forwardStack.isEmpty()) {
+        if (navigator == null) {
             return;
         }
 
-        var state = forwardStack.pop();
-        backwardStack.push(state);
-        showState(state);
+        navigator.goNext();
+        showCurrent();
     }
 
     public void goPrevious(MouseEvent mouseEvent) {
-        if (backwardStack == null || backwardStack.size() <= 1) {
+        if (navigator == null) {
             return;
         }
 
-        var state = backwardStack.pop();
-        forwardStack.push(state);
-        showState(backwardStack.peek());
+        navigator.goPrevious();
+        showCurrent();
+    }
+
+    public void goFirst(MouseEvent mouseEvent) {
+        if (navigator == null) {
+            return;
+        }
+
+        navigator.goFirst();
+        showCurrent();
+    }
+
+    public void goLast(MouseEvent mouseEvent) {
+        if (navigator == null) {
+            return;
+        }
+
+        navigator.goLast();
+        showCurrent();
     }
 
     public static class MainInner extends Application {

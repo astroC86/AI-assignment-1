@@ -37,17 +37,20 @@ public final class AStarSolver {
 
     private AStarSolver() {}
 
-    private static Stack<EightPuzzle> constructSolution(AStarNode node) {
-        var stack = new Stack<EightPuzzle>();
-        while (node != null) {
-            stack.push(node.state());
+    private static EightPuzzle[] constructSolution(AStarNode node) {
+        // If we took two steps, then we have three states, etc..
+        // ie, the number of states we have is the cost + 1.
+        var result = new EightPuzzle[node.g() + 1];
+
+        for (int i = node.g(); i >= 0; i--) {
+            result[i] = node.state();
             node = node.parent();
         }
 
-        return stack;
+        return result;
     }
 
-    public static Stack<EightPuzzle> solve(EightPuzzle initialState, Heuristic heuristic) throws UnresolvableBoardException {
+    public static EightPuzzle[] solve(EightPuzzle initialState, Heuristic heuristic) throws UnresolvableBoardException {
         double h = heuristic.evaluate(initialState);
 
         var frontier = new PriorityQueue<AStarNode>();

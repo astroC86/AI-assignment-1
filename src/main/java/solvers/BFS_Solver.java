@@ -71,7 +71,7 @@ public final class BFS_Solver {
     }
 
     public int moves() {
-        if (!isSolvable()) return -1;
+        if (!isSolvable()) return 0;
         return this.current.moves;
     }
 
@@ -79,15 +79,16 @@ public final class BFS_Solver {
         return current.board.isSolvable();
     }
 
-    public Stack<EightPuzzle> solution() {
-        if (!isSolvable())
-            return null;
-        Stack<EightPuzzle> seq = new Stack<>();
-        SearchNode runner = current;
-        while (runner != null) {
-            seq.push(runner.board);
-            runner = runner.previous;
+    public EightPuzzle[] solution() {
+        // If we took two steps, then we have three states, etc..
+        // ie, the number of states we have is the cost + 1.
+        var result = new EightPuzzle[moves() + 1];
+        var node = current;
+        for (int i = result.length - 1; i >= 0; i--) {
+            result[i] = node.board;
+            node = node.previous;
         }
-        return seq;
+
+        return result;
     }
 }
