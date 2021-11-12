@@ -38,8 +38,6 @@ public final class AStarSolver {
     private int searchDepth;
     private int nodesExpanded;
 
-    public AStarSolver() {}
-
     private static EightPuzzle[] constructSolution(AStarNode node) {
         // If we took two steps, then we have three states, etc..
         // ie, the number of states we have is the cost + 1.
