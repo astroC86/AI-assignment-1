@@ -152,12 +152,15 @@ public class Main {
             new Alert(Alert.AlertType.WARNING, "Load an initial state").showAndWait();
             return;
         }
-
-        var solver = new DFS_Solver(eightPuzzle);
-        navigator = new StateNavigator(solver.solution());
-        showCurrent();
-        expndedNodesLbl.setText(String.valueOf(9));
-        srchDpthLbl.setText(String.valueOf(9));
+        try {
+            var solver = new DFS_Solver(eightPuzzle);
+            navigator = new StateNavigator(solver.solution());
+            showCurrent();
+            expndedNodesLbl.setText(String.valueOf(solver.getNumberNodesExpanded()));
+            srchDpthLbl.setText(String.valueOf(solver.getSearchDepth()));
+        }  catch (UnresolvableBoardException e) {
+            new Alert(Alert.AlertType.WARNING, e.getMessage()).showAndWait();
+        }
     }
 
     public void solveBFS() {
@@ -165,13 +168,16 @@ public class Main {
             new Alert(Alert.AlertType.WARNING, "Load an initial state").showAndWait();
             return;
         }
-
-        var solver = new BFS_Solver(eightPuzzle);
-        var sln = solver.solution();
-        navigator = new StateNavigator(sln);
-        showCurrent();
-        expndedNodesLbl.setText(String.valueOf(9));
-        srchDpthLbl.setText(String.valueOf(sln.length - 1));
+        try {
+            var solver = new BFS_Solver(eightPuzzle);
+            var sln = solver.solution();
+            navigator = new StateNavigator(sln);
+            showCurrent();
+            expndedNodesLbl.setText(String.valueOf(9));
+            srchDpthLbl.setText(String.valueOf(sln.length - 1));
+        }  catch (UnresolvableBoardException e) {
+            new Alert(Alert.AlertType.WARNING, e.getMessage()).showAndWait();
+        }
     }
 
     private void solveAStar(Heuristic heuristic) {
@@ -181,11 +187,12 @@ public class Main {
         }
 
         try {
-            var states = AStarSolver.solve(eightPuzzle, heuristic);
+            var solver =new AStarSolver();
+            var states = solver.solve(eightPuzzle, heuristic);
             navigator = new StateNavigator(states);
             showCurrent();
-            expndedNodesLbl.setText(String.valueOf(9));
-            srchDpthLbl.setText(String.valueOf(states.length -1));
+            expndedNodesLbl.setText(String.valueOf(solver.getNumberNodesExpanded()));
+            srchDpthLbl.setText(String.valueOf(solver.getSearchDepth()));
         }
         catch (UnresolvableBoardException e) {
             new Alert(Alert.AlertType.WARNING, e.getMessage()).showAndWait();

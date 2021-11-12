@@ -24,7 +24,7 @@ public class BFS_SolverTest {
                 if(solver.moves() < bp.getMoves()){
                     fail("failed for "+ brdprblm.getFilename());
                 }
-            } catch (IOException e) {
+            } catch (IOException | UnresolvableBoardException e) {
                 e.printStackTrace();
             }
         }
@@ -44,7 +44,7 @@ public class BFS_SolverTest {
                 if(solverDFS.moves() < solverBFS.moves()){
                     fail("failed for "+ brdprblm.getFilename());
                 }
-            } catch (IOException e) {
+            } catch (IOException | UnresolvableBoardException e) {
                 e.printStackTrace();
             }
         }
@@ -63,7 +63,7 @@ public class BFS_SolverTest {
                 if(solverBFS.moves() != bp.getMoves() ){
                     fail("failed for "+ brdprblm.getFilename());
                 }
-            } catch (IOException e) {
+            } catch (IOException | UnresolvableBoardException e) {
                 e.printStackTrace();
             }
         }
@@ -102,7 +102,7 @@ public class BFS_SolverTest {
                         }
                     }
                 }
-            } catch (IOException e) {
+            } catch (IOException | UnresolvableBoardException e) {
                 e.printStackTrace();
             }
         }

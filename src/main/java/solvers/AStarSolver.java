@@ -38,7 +38,7 @@ public final class AStarSolver {
     private int searchDepth;
     private int nodesExpanded;
 
-    private AStarSolver() {}
+    public AStarSolver() {}
 
     private static EightPuzzle[] constructSolution(AStarNode node) {
         // If we took two steps, then we have three states, etc..

@@ -37,14 +37,15 @@ public final class BFS_Solver {
     private SearchNode current;
     private int nodesExpanded;
 
-    public BFS_Solver(EightPuzzle initialState) {
+    public BFS_Solver(EightPuzzle initialState) throws UnresolvableBoardException {
         nodesExpanded = 0;
 
         if (initialState == null)
             throw new IllegalArgumentException();
 
         current = new SearchNode(initialState);
-        if (!current.board.isSolvable()) return;
+        if (!current.board.isSolvable())
+            throw new UnresolvableBoardException();
 
         LinkedList<SearchNode> frontier = new LinkedList<>();
         Set<EightPuzzle> frontierSet = new HashSet<>();
