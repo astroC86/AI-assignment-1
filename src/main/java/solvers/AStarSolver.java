@@ -36,8 +36,8 @@ public final class AStarSolver {
         }
     }
 
-    private int searchDepth = 0 ;
-    private int nodesExpanded = 0;
+    private int searchDepth ;
+    private int nodesExpanded ;
 
     private AStarSolver() {}
 
@@ -52,6 +52,8 @@ public final class AStarSolver {
     }
 
     public  Stack<EightPuzzle> solve(EightPuzzle initialState, Heuristic heuristic) throws UnresolvableBoardException {
+        searchDepth   = 0;
+        nodesExpanded = 0;
         double h = heuristic.evaluate(initialState);
 
         var frontier = new PriorityQueue<AStarNode>();

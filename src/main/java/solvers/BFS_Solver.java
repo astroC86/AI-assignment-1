@@ -35,9 +35,10 @@ public final class BFS_Solver {
     }
 
     private SearchNode current;
-    private int nodesExpanded  = 0;
+    private int nodesExpanded ;
 
     public BFS_Solver(EightPuzzle initialState) {
+        nodesExpanded = 0;
 
         if (initialState == null)
             throw new IllegalArgumentException();
