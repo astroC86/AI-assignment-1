@@ -107,23 +107,35 @@ public class Main {
             return;
         }else{
             long startTime = System.currentTimeMillis();
+            long stopTime;
             switch (alg) {
                 case DFS -> {
                     solveDFS();
+                    stopTime  = System.currentTimeMillis();
+                    runningTimeLbl.setText((stopTime - startTime) +" ms");
                 }
                 case BFS -> {
                     solveBFS();
+                    stopTime  = System.currentTimeMillis();
+                    runningTimeLbl.setText((stopTime - startTime) +" ms");
                 }
                 case AStarEuclidean -> {
                     solveAStarEuclidean();
+                    stopTime  = System.currentTimeMillis();
+                    runningTimeLbl.setText((stopTime - startTime) +" ms");
                 }
                 case AStarManhattan -> {
                     solveAStarManhattan();
+                    stopTime  = System.currentTimeMillis();
+                    runningTimeLbl.setText((stopTime - startTime) +" ms");
                 }
-                default -> new Alert(Alert.AlertType.WARNING, "Invalid Algorithm").showAndWait();
+                default -> {
+                    new Alert(Alert.AlertType.WARNING, "Invalid Algorithm").showAndWait();
+                    runningTimeLbl.setText("0 ms");
+                    expndedNodesLbl.setText("0");
+                    srchDpthLbl.setText("0");
+                }
             }
-            long stopTime = System.currentTimeMillis();
-            runningTimeLbl.setText((stopTime - startTime) +" ms");
 
         }
 
