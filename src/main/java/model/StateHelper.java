@@ -21,8 +21,8 @@ public class StateHelper {
 
     public static long setAtIndex(int index, int newValue, long state) {
         // Set the bits to zero first.
-        state &= (~(0b1111 << (index * 4)));
-        state |= (newValue << (index * 4));
+        state &= (~(0b1111L << (index * 4)));
+        state |= ((long)newValue << (index * 4));
         return state;
     }
 }

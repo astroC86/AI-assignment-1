@@ -24,17 +24,11 @@ public final class EightPuzzle {
     public EightPuzzle(int[] initialState) {
         checkState(initialState);
         this.currentState = StateHelper.fromArray(initialState);
-        if (currentState < 0) {
-            var x = 0;
-        }
         this.emptyIndex = getEmptyIndex();
     }
 
     private EightPuzzle(long initialState, int emptyIndex) {
         this.currentState = initialState;
-        if (currentState < 0) {
-            var x = 0;
-        }
         this.emptyIndex = emptyIndex;
     }
 
