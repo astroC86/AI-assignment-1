@@ -7,7 +7,7 @@ public enum Solvers {
     AStarManhattan("A* (Manhattan)"),
     AStarEuclidean("A* (Euclidean)");
 
-    private String name = "";
+    private String name ;
 
     Solvers(String s) {
         this.name = s;
