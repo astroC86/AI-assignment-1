@@ -21,7 +21,7 @@ public class DFS_SolverTest {
                 if(solver.moves() < bp.getMoves()){
                     fail("failed for "+ brdprblm.getFilename());
                 }
-            } catch (IOException e) {
+            } catch (IOException | UnresolvableBoardException e) {
                 e.printStackTrace();
             }
         }
@@ -46,7 +46,7 @@ public class DFS_SolverTest {
                         fail("Search depth is not within theoretical depth");
                     }
                 }
-            } catch (IOException e) {
+            } catch (IOException | UnresolvableBoardException e) {
                 e.printStackTrace();
             }
         }
