@@ -105,29 +105,23 @@ public class Main {
         if(alg == null){
             new Alert(Alert.AlertType.WARNING, "Choose an algorithm.").showAndWait();
             return;
-        }else{
-            long startTime = System.currentTimeMillis();
-            long stopTime;
+        } else {
             switch (alg) {
                 case DFS -> {
-                    solveDFS();
-                    stopTime  = System.currentTimeMillis();
-                    runningTimeLbl.setText((stopTime - startTime) +" ms");
+                    long runningTime = solveDFS();
+                    runningTimeLbl.setText(runningTime + " ms");
                 }
                 case BFS -> {
-                    solveBFS();
-                    stopTime  = System.currentTimeMillis();
-                    runningTimeLbl.setText((stopTime - startTime) +" ms");
+                    long runningTime = solveBFS();
+                    runningTimeLbl.setText(runningTime + " ms");
                 }
                 case AStarEuclidean -> {
-                    solveAStarEuclidean();
-                    stopTime  = System.currentTimeMillis();
-                    runningTimeLbl.setText((stopTime - startTime) +" ms");
+                    long runningTime = solveAStarEuclidean();
+                    runningTimeLbl.setText(runningTime + " ms");
                 }
                 case AStarManhattan -> {
-                    solveAStarManhattan();
-                    stopTime  = System.currentTimeMillis();
-                    runningTimeLbl.setText((stopTime - startTime) +" ms");
+                    long runningTime = solveAStarManhattan();
+                    runningTimeLbl.setText(runningTime + " ms");
                 }
                 default -> {
                     new Alert(Alert.AlertType.WARNING, "Invalid Algorithm").showAndWait();
@@ -159,30 +153,37 @@ public class Main {
         }
     }
 
-    public void solveDFS() {
+    public long solveDFS() {
         if (eightPuzzle == null) {
             new Alert(Alert.AlertType.WARNING, "Load an initial state").showAndWait();
             return;
         }
         try {
+            long startTime = System.currentTimeMillis();
             var solver = new DFS_Solver(eightPuzzle);
-            navigator = new StateNavigator(solver.solution());
+            var solution = solver.solution();
+            long endTime = System.currentTimeMillis();
+            navigator = new StateNavigator(solution);
             showCurrent();
             expndedNodesLbl.setText(String.valueOf(solver.getNumberNodesExpanded()));
             srchDpthLbl.setText(String.valueOf(solver.getSearchDepth()));
         }  catch (UnresolvableBoardException e) {
             new Alert(Alert.AlertType.WARNING, e.getMessage()).showAndWait();
         }
+
+        return endtime - startTime;
     }
 
-    public void solveBFS() {
+    public long solveBFS() {
         if (eightPuzzle == null) {
             new Alert(Alert.AlertType.WARNING, "Load an initial state").showAndWait();
             return;
         }
         try {
+            long startTime = System.currentTimeMillis();
             var solver = new BFS_Solver(eightPuzzle);
             var sln = solver.solution();
+            long endTime = System.currentTimeMillis();
             navigator = new StateNavigator(sln);
             showCurrent();
             expndedNodesLbl.setText(String.valueOf(solver.getNumberNodesExpanded()));
@@ -190,17 +191,21 @@ public class Main {
         }  catch (UnresolvableBoardException e) {
             new Alert(Alert.AlertType.WARNING, e.getMessage()).showAndWait();
         }
+
+        return endtime - startTime;
     }
 
-    private void solveAStar(Heuristic heuristic) {
+    private long solveAStar(Heuristic heuristic) {
         if (eightPuzzle == null) {
             new Alert(Alert.AlertType.WARNING, "Load an initial state").showAndWait();
             return;
         }
 
         try {
-            var solver =new AStarSolver();
+            long startTime = System.currentTimeMillis();
+            var solver = new AStarSolver();
             var states = solver.solve(eightPuzzle, heuristic);
+            long endTime = System.currentTimeMillis();
             navigator = new StateNavigator(states);
             showCurrent();
             expndedNodesLbl.setText(String.valueOf(solver.getNumberNodesExpanded()));
@@ -209,14 +214,16 @@ public class Main {
         catch (UnresolvableBoardException e) {
             new Alert(Alert.AlertType.WARNING, e.getMessage()).showAndWait();
         }
+
+        return endtime - startTime;
     }
 
-    public void solveAStarManhattan() {
-        solveAStar(new ManhattanHeuristic());
+    public long solveAStarManhattan() {
+        return solveAStar(new ManhattanHeuristic());
     }
 
-    public void solveAStarEuclidean() {
-        solveAStar(new EuclideanHeuristic());
+    public long solveAStarEuclidean() {
+        return solveAStar(new EuclideanHeuristic());
     }
 
 
