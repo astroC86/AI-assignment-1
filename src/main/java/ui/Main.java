@@ -154,15 +154,16 @@ public class Main {
     }
 
     public long solveDFS() {
+        long startTime = 0, endTime = 0 ;
         if (eightPuzzle == null) {
             new Alert(Alert.AlertType.WARNING, "Load an initial state").showAndWait();
-            return;
+            return 0;
         }
         try {
-            long startTime = System.currentTimeMillis();
+            startTime = System.currentTimeMillis();
             var solver = new DFS_Solver(eightPuzzle);
             var solution = solver.solution();
-            long endTime = System.currentTimeMillis();
+            endTime = System.currentTimeMillis();
             navigator = new StateNavigator(solution);
             showCurrent();
             expndedNodesLbl.setText(String.valueOf(solver.getNumberNodesExpanded()));
@@ -171,19 +172,21 @@ public class Main {
             new Alert(Alert.AlertType.WARNING, e.getMessage()).showAndWait();
         }
 
-        return endtime - startTime;
+        return endTime - startTime;
     }
 
     public long solveBFS() {
+        long startTime = 0, endTime = 0 ;
         if (eightPuzzle == null) {
             new Alert(Alert.AlertType.WARNING, "Load an initial state").showAndWait();
-            return;
+            return 0;
         }
+
         try {
-            long startTime = System.currentTimeMillis();
+            startTime = System.currentTimeMillis();
             var solver = new BFS_Solver(eightPuzzle);
             var sln = solver.solution();
-            long endTime = System.currentTimeMillis();
+            endTime = System.currentTimeMillis();
             navigator = new StateNavigator(sln);
             showCurrent();
             expndedNodesLbl.setText(String.valueOf(solver.getNumberNodesExpanded()));
@@ -192,20 +195,22 @@ public class Main {
             new Alert(Alert.AlertType.WARNING, e.getMessage()).showAndWait();
         }
 
-        return endtime - startTime;
+        return endTime - startTime;
     }
 
     private long solveAStar(Heuristic heuristic) {
+        long startTime = 0, endTime = 0 ;
+
         if (eightPuzzle == null) {
             new Alert(Alert.AlertType.WARNING, "Load an initial state").showAndWait();
-            return;
+            return 0 ;
         }
 
         try {
-            long startTime = System.currentTimeMillis();
+            startTime = System.currentTimeMillis();
             var solver = new AStarSolver();
             var states = solver.solve(eightPuzzle, heuristic);
-            long endTime = System.currentTimeMillis();
+            endTime = System.currentTimeMillis();
             navigator = new StateNavigator(states);
             showCurrent();
             expndedNodesLbl.setText(String.valueOf(solver.getNumberNodesExpanded()));
@@ -215,7 +220,7 @@ public class Main {
             new Alert(Alert.AlertType.WARNING, e.getMessage()).showAndWait();
         }
 
-        return endtime - startTime;
+        return endTime - startTime;
     }
 
     public long solveAStarManhattan() {
