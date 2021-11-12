@@ -66,21 +66,6 @@ public final class EightPuzzle {
         throw new IllegalStateException("State doesn't contain a zero (blank tile).");
     }
 
-    public EightPuzzle takeAction(Action action, int emptyIndex) {
-        var newEmptyIndex = switch (action) {
-            case UP -> emptyIndex - SIDE_LENGTH;
-            case DOWN -> emptyIndex + SIDE_LENGTH;
-            case LEFT -> emptyIndex - 1;
-            case RIGHT -> emptyIndex + 1;
-            default -> throw new IllegalArgumentException("Model.Action can only be UP, DOWN, LEFT, or RIGHT.");
-        };
-
-        var newState = currentState.clone();
-        newState[emptyIndex] = newState[newEmptyIndex];
-        newState[newEmptyIndex] = 0;
-        return new EightPuzzle(newState);
-    }
-
     public int[] arrayCoordinateToBoardCoordinates(int x) {
         // where x is the array index of the blank tile
         int r = x / SIDE_LENGTH;
@@ -93,7 +78,7 @@ public final class EightPuzzle {
 
     public Iterable<EightPuzzle> getNeighbours() {
         int[] blankCoordinate = arrayCoordinateToBoardCoordinates(emptyIndex);
-        List<EightPuzzle> neigbourBoards = new ArrayList<>(4);
+        List<EightPuzzle> neighbourBoards = new ArrayList<>(4);
         for (int i = 0; i < 4; i++) {
             if ((blankCoordinate[0] + TRANSLATION_ARR[i] > -1 &&
                     blankCoordinate[0] + TRANSLATION_ARR[i] < SIDE_LENGTH) &&
@@ -109,10 +94,10 @@ public final class EightPuzzle {
                 newBoard.currentState[emptyIndex] = newBoard.currentState[newBlankCoordinate];
                 newBoard.currentState[newBlankCoordinate] = 0;
 
-                neigbourBoards.add(newBoard);
+                neighbourBoards.add(newBoard);
             }
         }
-        return neigbourBoards;
+        return neighbourBoards;
     }
 
     public boolean isSolvable() {
@@ -150,18 +135,4 @@ public final class EightPuzzle {
     public int hashCode() {
         return Arrays.hashCode(currentState);
     }
-
-    @Override
-    public String toString() {
-        StringBuilder s = new StringBuilder();
-        for (int i = 0; i < currentState.length; i++) {
-            s.append(String.format("%2d ", currentState[i]));
-            if ((i + 1) % SIDE_LENGTH == 0) {
-                s.append("\n");
-            }
-        }
-        s.append("\n");
-        return s.toString();
-    }
-
 }
