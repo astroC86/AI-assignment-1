@@ -169,6 +169,7 @@ public class Main {
             expndedNodesLbl.setText(String.valueOf(solver.getNumberNodesExpanded()));
             srchDpthLbl.setText(String.valueOf(solver.getSearchDepth()));
         }  catch (UnresolvableBoardException e) {
+            endTime = System.currentTimeMillis();
             new Alert(Alert.AlertType.WARNING, e.getMessage()).showAndWait();
         }
 
@@ -192,6 +193,7 @@ public class Main {
             expndedNodesLbl.setText(String.valueOf(solver.getNumberNodesExpanded()));
             srchDpthLbl.setText(String.valueOf(solver.getSearchDepth()));
         }  catch (UnresolvableBoardException e) {
+            endTime = System.currentTimeMillis();
             new Alert(Alert.AlertType.WARNING, e.getMessage()).showAndWait();
         }
 
@@ -217,6 +219,7 @@ public class Main {
             srchDpthLbl.setText(String.valueOf(solver.getSearchDepth()));
         }
         catch (UnresolvableBoardException e) {
+            endTime = System.currentTimeMillis();
             new Alert(Alert.AlertType.WARNING, e.getMessage()).showAndWait();
         }
 
