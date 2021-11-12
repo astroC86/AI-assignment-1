@@ -52,6 +52,10 @@ public final class AStarSolver {
     }
 
     public EightPuzzle[] solve(EightPuzzle initialState, Heuristic heuristic) throws UnresolvableBoardException {
+        if (!initialState.isSolvable()) {
+            throw new UnresolvableBoardException();
+        }
+
         searchDepth   = 0;
         nodesExpanded = 0;
         double h = heuristic.evaluate(initialState);
