@@ -184,10 +184,11 @@ public class Main {
         }
 
         var solver = new BFS_Solver(eightPuzzle);
-        navigator = new StateNavigator(solver.solution());
+        var sln = solver.solution();
+        navigator = new StateNavigator(sln);
         showCurrent();
         updateExpandedNodes(9);
-        updateSearchDepth(9);
+        updateSearchDepth(sln.length - 1);
     }
 
     private void solveAStar(Heuristic heuristic) {
@@ -201,7 +202,7 @@ public class Main {
             navigator = new StateNavigator(states);
             showCurrent();
             updateExpandedNodes(9);
-            updateSearchDepth(9);
+            updateSearchDepth(states.length -1);
         }
         catch (UnresolvableBoardException e) {
             new Alert(Alert.AlertType.WARNING, e.getMessage()).showAndWait();
