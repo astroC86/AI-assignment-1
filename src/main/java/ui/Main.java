@@ -12,7 +12,6 @@ import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
@@ -24,8 +23,6 @@ import solvers.AStarSolver;
 import solvers.BFS_Solver;
 import solvers.DFS_Solver;
 import solvers.UnresolvableBoardException;
-
-import java.util.Objects;
 
 // Hacky approach due to JavaFX runtime components are missing error:
 // https://stackoverflow.com/questions/59771324/error-javafx-runtime-components-are-missing-and-are-required-to-run-this-appli
@@ -126,26 +123,12 @@ public class Main {
                 default -> new Alert(Alert.AlertType.WARNING, "Invalid Algorithm").showAndWait();
             }
             long stopTime = System.currentTimeMillis();
-            updateRunningTime(stopTime - startTime);
+            runningTimeLbl.setText((stopTime - startTime) +" ms");
 
         }
 
     }
 
-    private void updateSearchDepth(int i) {
-        srchDpthLbl.setText("");
-        srchDpthLbl.setText(String.valueOf(i));
-    }
-
-    private void updateExpandedNodes(int i) {
-        expndedNodesLbl.setText("");
-        expndedNodesLbl.setText(String.valueOf(i));
-    }
-
-    private void updateRunningTime(long time){
-        runningTimeLbl.setText("");
-        runningTimeLbl.setText(time +" ms");
-    }
     private void showState(EightPuzzle state) {
         element0.setText(toStringHelper(state.getNumberAtIndex(0)));
         element1.setText(toStringHelper(state.getNumberAtIndex(1)));
@@ -173,8 +156,8 @@ public class Main {
         var solver = new DFS_Solver(eightPuzzle);
         navigator = new StateNavigator(solver.solution());
         showCurrent();
-        updateExpandedNodes(9);
-        updateSearchDepth(9);
+        expndedNodesLbl.setText(String.valueOf(9));
+        srchDpthLbl.setText(String.valueOf(9));
     }
 
     public void solveBFS() {
@@ -187,8 +170,8 @@ public class Main {
         var sln = solver.solution();
         navigator = new StateNavigator(sln);
         showCurrent();
-        updateExpandedNodes(9);
-        updateSearchDepth(sln.length - 1);
+        expndedNodesLbl.setText(String.valueOf(9));
+        srchDpthLbl.setText(String.valueOf(sln.length - 1));
     }
 
     private void solveAStar(Heuristic heuristic) {
@@ -201,8 +184,8 @@ public class Main {
             var states = AStarSolver.solve(eightPuzzle, heuristic);
             navigator = new StateNavigator(states);
             showCurrent();
-            updateExpandedNodes(9);
-            updateSearchDepth(states.length -1);
+            expndedNodesLbl.setText(String.valueOf(9));
+            srchDpthLbl.setText(String.valueOf(states.length -1));
         }
         catch (UnresolvableBoardException e) {
             new Alert(Alert.AlertType.WARNING, e.getMessage()).showAndWait();

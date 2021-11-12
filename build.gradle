@@ -50,7 +50,7 @@ jlink {
     }
 }
 
-mainClassName = "/gui.Main"
+mainClassName = "/ui.Main"
 
 
 test {

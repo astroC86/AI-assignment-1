@@ -2,9 +2,9 @@ package ui;
 
 public enum Solvers {
 
-    AStarManhattan("A* (Manhattan)"),
     DFS("DFS"),
     BFS("BFS"),
+    AStarManhattan("A* (Manhattan)"),
     AStarEuclidean("A* (Euclidean)");
 
     private String name = "";
