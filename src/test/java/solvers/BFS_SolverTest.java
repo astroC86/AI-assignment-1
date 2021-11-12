@@ -44,8 +44,9 @@ public class BFS_SolverTest {
                 if(solverDFS.moves() < solverBFS.moves()){
                     fail("failed for "+ brdprblm.getFilename());
                 }
-            } catch (IOException | UnresolvableBoardException e) {
+            } catch (IOException e) {
                 e.printStackTrace();
+            }catch(UnresolvableBoardException e){
             }
         }
     }
@@ -63,9 +64,9 @@ public class BFS_SolverTest {
                 if(solverBFS.moves() != bp.getMoves() ){
                     fail("failed for "+ brdprblm.getFilename());
                 }
-            } catch (IOException | UnresolvableBoardException e) {
+            } catch (IOException e) {
                 e.printStackTrace();
-            }
+            }catch(UnresolvableBoardException e){}
         }
     }
 
