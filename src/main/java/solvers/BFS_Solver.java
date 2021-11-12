@@ -35,7 +35,7 @@ public final class BFS_Solver {
     }
 
     private SearchNode current;
-    private int nodesExpanded ;
+    private int nodesExpanded;
 
     public BFS_Solver(EightPuzzle initialState) {
         nodesExpanded = 0;
@@ -62,6 +62,7 @@ public final class BFS_Solver {
             if (current.board.isGoalState()) break;
             for (var nb : current.board.getNeighbours()) {
                 if (current.previous == null || !nb.equals(current.previous.board)) {
+                    nodesExpanded++;
                     if(!explored.contains(nb) &&  !frontierSet.contains(nb)){
                         nodesExpanded++;
                         frontier.add(new SearchNode(nb, current));

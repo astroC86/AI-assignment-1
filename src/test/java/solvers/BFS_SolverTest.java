@@ -48,6 +48,7 @@ public class BFS_SolverTest {
             }
         }
     }
+
     @Test
     public void BFS_OptimalityTest(){
         for (var brdprblm: TestBoards.values()) {
@@ -66,6 +67,7 @@ public class BFS_SolverTest {
             }
         }
     }
+
     @Test
     public void MovesOptimalityTest(){
         for (var brdprblm: TestBoards.values()) {
@@ -82,7 +84,6 @@ public class BFS_SolverTest {
                     Iterator<EightPuzzle> bpIterator = bp.getSolutionSteps().iterator();
                     Stack<EightPuzzle> bpStack = new Stack<>();
 
-
                     while (bpIterator.hasNext())
                         bpStack.push(bpIterator.next());
 
@@ -90,8 +91,12 @@ public class BFS_SolverTest {
                         var bfsStep = bfsIterator.next();
                         var optStep = bpStack.pop();
                         if (!bfsStep.equals(optStep)) {
-
-                            fail("failed for " + brdprblm.getFilename() + "\nexpected : \n" + optStep.toString() + "\n actual : \n" + bfsStep.toString());
+                            fail("failed for "             +
+                                    brdprblm.getFilename() +
+                                    "\nexpected : \n"      +
+                                    optStep.toString()     +
+                                    "\n actual : \n"       +
+                                    bfsStep.toString());
                             break;
                         }
                     }

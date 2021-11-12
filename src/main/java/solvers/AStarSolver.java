@@ -8,7 +8,6 @@ import heuristics.Heuristic;
 import model.EightPuzzle;
 
 public final class AStarSolver {
-
     private final record AStarNode(EightPuzzle state, AStarNode parent, int g, double h) implements Comparable<AStarNode> {
         public AStarNode(EightPuzzle state, int g, double h) {
             this(state, null, g, h);
@@ -36,8 +35,8 @@ public final class AStarSolver {
         }
     }
 
-    private int searchDepth ;
-    private int nodesExpanded ;
+    private int searchDepth;
+    private int nodesExpanded;
 
     private AStarSolver() {}
 

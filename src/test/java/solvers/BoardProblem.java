@@ -8,9 +8,9 @@ import java.util.List;
 
 public class BoardProblem {
 
-    private  int moves = 0;
-    private List<Integer> initialState;
-    private List<EightPuzzle> solutionSteps;
+    private final int moves;
+    private final List<Integer> initialState;
+    private final List<EightPuzzle> solutionSteps;
     private boolean solvable = true;
 
     public BoardProblem(File board, File boardSln) throws IOException {
