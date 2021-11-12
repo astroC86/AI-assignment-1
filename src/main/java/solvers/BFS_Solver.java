@@ -35,6 +35,7 @@ public final class BFS_Solver {
     }
 
     private SearchNode current;
+    private int nodesExpanded  = 0;
 
     public BFS_Solver(EightPuzzle initialState) {
 
@@ -42,7 +43,6 @@ public final class BFS_Solver {
             throw new IllegalArgumentException();
 
         current = new SearchNode(initialState);
-
         if (!current.board.isSolvable()) return;
 
         LinkedList<SearchNode> frontier = new LinkedList<>();
@@ -61,6 +61,7 @@ public final class BFS_Solver {
             if (current.board.isGoalState()) break;
             for (var nb : current.board.getNeighbours()) {
                 if (current.previous == null || !nb.equals(current.previous.board)) {
+                    nodesExpanded++;
                     if(!explored.contains(nb) &&  !frontierSet.contains(nb)){
                         frontier.add(new SearchNode(nb, current));
                         frontierSet.add(nb);
@@ -97,5 +98,13 @@ public final class BFS_Solver {
         }
 
         return result;
+    }
+
+    public int getNumberNodesExpanded() {
+        return nodesExpanded;
+    }
+
+    public int getSearchDepth() {
+        return current.moves;
     }
 }

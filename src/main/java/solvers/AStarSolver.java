@@ -8,6 +8,7 @@ import heuristics.Heuristic;
 import model.EightPuzzle;
 
 public final class AStarSolver {
+
     private final record AStarNode(EightPuzzle state, AStarNode parent, int g, double h) implements Comparable<AStarNode> {
         public AStarNode(EightPuzzle state, int g, double h) {
             this(state, null, g, h);
@@ -35,6 +36,9 @@ public final class AStarSolver {
         }
     }
 
+    private int searchDepth = 0 ;
+    private int nodesExpanded = 0;
+
     private AStarSolver() {}
 
     private static EightPuzzle[] constructSolution(AStarNode node) {
@@ -50,7 +54,7 @@ public final class AStarSolver {
         return result;
     }
 
-    public static EightPuzzle[] solve(EightPuzzle initialState, Heuristic heuristic) throws UnresolvableBoardException {
+    public EightPuzzle[] solve(EightPuzzle initialState, Heuristic heuristic) throws UnresolvableBoardException {
         double h = heuristic.evaluate(initialState);
 
         var frontier = new PriorityQueue<AStarNode>();
@@ -59,6 +63,7 @@ public final class AStarSolver {
         frontier.add(initialNode);
         frontierHashSet.add(initialNode);
         var explored = new HashSet<EightPuzzle>();
+        nodesExpanded++;
         while (!frontier.isEmpty()) {
             var node = frontier.remove();
             frontierHashSet.remove(node);
@@ -75,6 +80,7 @@ public final class AStarSolver {
                 if (!frontierContainsNewNode && !explored.contains(neighbour)) {
                     frontier.add(newNode);
                     frontierHashSet.add(newNode);
+                    nodesExpanded++;
                 }
                 else if (frontierContainsNewNode) {
                     var isRemoved = frontier.removeIf(n -> n.state().equals(newNode.state()) && n.g() + n.h() > newNode.g() + newNode.h());
@@ -84,9 +90,17 @@ public final class AStarSolver {
                         // We don't use the cost of hash set nodes.
                     }
                 }
+                searchDepth = Integer.max(newNode.g(), searchDepth);
             }
         }
 
         throw new UnresolvableBoardException();
+    }
+    public int getNumberNodesExpanded() {
+        return nodesExpanded;
+    }
+
+    public int getSearchDepth() {
+        return searchDepth;
     }
 }
