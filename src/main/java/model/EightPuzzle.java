@@ -52,7 +52,7 @@ public final class EightPuzzle {
         }
     }
 
-    public int getNumberAtIndex(int index){
+    public int getNumberAtIndex(int index) {
         return currentState[index];
     }
 

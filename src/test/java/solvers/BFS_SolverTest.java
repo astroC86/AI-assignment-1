@@ -4,6 +4,7 @@ import model.EightPuzzle;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Stack;
 
@@ -23,7 +24,7 @@ public class BFS_SolverTest {
                 if(solver.moves() < bp.getMoves()){
                     fail("failed for "+ brdprblm.getFilename());
                 }
-            } catch (IOException e) {
+            } catch (IOException | UnresolvableBoardException e) {
                 e.printStackTrace();
             }
         }
@@ -45,6 +46,7 @@ public class BFS_SolverTest {
                 }
             } catch (IOException e) {
                 e.printStackTrace();
+            }catch(UnresolvableBoardException e){
             }
         }
     }
@@ -64,7 +66,7 @@ public class BFS_SolverTest {
                 }
             } catch (IOException e) {
                 e.printStackTrace();
-            }
+            }catch(UnresolvableBoardException e){}
         }
     }
 
@@ -80,8 +82,8 @@ public class BFS_SolverTest {
                 if(bp.isSolvable()) {
                     BFS_Solver solverBFS = new BFS_Solver(new EightPuzzle(bp.getInitialState()));
                     //Since we know that DFS is not optimal
-                    Iterator<EightPuzzle> bfsIterator = solverBFS.solution().iterator();
-                    Iterator<EightPuzzle> bpIterator = bp.getSolutionSteps().iterator();
+                    Iterator<EightPuzzle> bfsIterator = Arrays.stream(solverBFS.solution()).iterator();
+                    Iterator<EightPuzzle> bpIterator = bp.getSolutionSteps().stream().iterator();
                     Stack<EightPuzzle> bpStack = new Stack<>();
 
                     while (bpIterator.hasNext())
@@ -101,7 +103,7 @@ public class BFS_SolverTest {
                         }
                     }
                 }
-            } catch (IOException e) {
+            } catch (IOException | UnresolvableBoardException e) {
                 e.printStackTrace();
             }
         }

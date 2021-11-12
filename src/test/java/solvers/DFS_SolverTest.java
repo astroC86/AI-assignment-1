@@ -23,6 +23,7 @@ public class DFS_SolverTest {
                 }
             } catch (IOException e) {
                 e.printStackTrace();
+            }catch(UnresolvableBoardException e){
             }
         }
     }
@@ -48,6 +49,7 @@ public class DFS_SolverTest {
                 }
             } catch (IOException e) {
                 e.printStackTrace();
+            }catch(UnresolvableBoardException e){
             }
         }
     }

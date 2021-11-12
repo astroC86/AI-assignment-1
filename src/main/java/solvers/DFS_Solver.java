@@ -39,13 +39,13 @@ public class DFS_Solver {
     private int nodesExpanded  = 0;
     private int searchDepth    = 0;
 
-    public DFS_Solver(EightPuzzle initialState) {
+    public DFS_Solver(EightPuzzle initialState)  throws UnresolvableBoardException  {
         if (initialState == null)
             throw new IllegalArgumentException();
 
         current = new SearchNode(initialState);
 
-        if(!current.board.isSolvable()) return;
+        if(!current.board.isSolvable()) throw new UnresolvableBoardException();
 
         Stack<SearchNode> frontier = new Stack<>();
         Set<EightPuzzle> frontierSet = new HashSet<>();
@@ -89,15 +89,24 @@ public class DFS_Solver {
         return current.board.isSolvable();
     }
 
-    public Iterable<EightPuzzle> solution() {
-        if (!isSolvable()) return null;
-        Stack<EightPuzzle> seq = new Stack<>();
-        SearchNode runner = current;
-        while (runner != null) {
-            seq.push(runner.board);
-            runner = runner.previous;
+    public EightPuzzle[] solution() {
+        // If we took two steps, then we have three states, etc..
+        // ie, the number of states we have is the cost + 1.
+        var moves = moves();
+        if (moves == -1) {
+            // For the purpose of the solution, if we have an unsolvable board, we want
+            // to produce an array containing only the initial state.
+            moves = 0;
         }
-        return seq;
+
+        var result = new EightPuzzle[moves + 1];
+        var node = current;
+        for (int i = result.length - 1; i >= 0; i--) {
+            result[i] = node.board;
+            node = node.previous;
+        }
+
+        return result;
     }
 
     public int getNumberNodesExpanded() {
