@@ -66,14 +66,14 @@ public class DFS_Solver {
             for (var nb : current.board.getNeighbours()) {
                 if (current.previous == null || !nb.equals(current.previous.board)) {
                     if(!explored.contains(nb) &&  !frontierSet.contains(nb)){
+                        nodesExpanded++;
+                        searchDepth = Integer.max(current.moves + 1, searchDepth);
                         if (nb.isGoalState()) {
                             current = new SearchNode(nb, current);
                             return;
                         }
                         frontier.push(new SearchNode(nb, current));
                         frontierSet.add(nb);
-                        nodesExpanded++;
-                        searchDepth = Integer.max(current.moves + 1, searchDepth);
                     }
                 }
             }
