@@ -173,8 +173,8 @@ public class Main {
             var sln = solver.solution();
             navigator = new StateNavigator(sln);
             showCurrent();
-            expndedNodesLbl.setText(String.valueOf(9));
-            srchDpthLbl.setText(String.valueOf(sln.length - 1));
+            expndedNodesLbl.setText(String.valueOf(solver.getNumberNodesExpanded()));
+            srchDpthLbl.setText(String.valueOf(solver.getSearchDepth()));
         }  catch (UnresolvableBoardException e) {
             new Alert(Alert.AlertType.WARNING, e.getMessage()).showAndWait();
         }
