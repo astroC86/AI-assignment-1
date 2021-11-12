@@ -61,8 +61,8 @@ public final class BFS_Solver {
             if (current.board.isGoalState()) break;
             for (var nb : current.board.getNeighbours()) {
                 if (current.previous == null || !nb.equals(current.previous.board)) {
-                    nodesExpanded++;
                     if(!explored.contains(nb) &&  !frontierSet.contains(nb)){
+                        nodesExpanded++;
                         frontier.add(new SearchNode(nb, current));
                         frontierSet.add(nb);
                     }
