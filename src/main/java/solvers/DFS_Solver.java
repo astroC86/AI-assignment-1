@@ -45,7 +45,7 @@ public class DFS_Solver {
 
         current = new SearchNode(initialState);
 
-        if(!current.board.isSolvable()) throw new UnsupportedOperationException();
+        if(!current.board.isSolvable()) throw new UnresolvableBoardException();
 
         Stack<SearchNode> frontier = new Stack<>();
         Set<EightPuzzle> frontierSet = new HashSet<>();
