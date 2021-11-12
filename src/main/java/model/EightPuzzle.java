@@ -15,7 +15,7 @@ public final class EightPuzzle {
     //  0,-1
     private static final int[] TRANSLATION_ARR = {-1, 1, 0, 0};
 
-    private final long currentState;
+    private final int[] currentState;
     private final int emptyIndex;
 
     // |0|1|2|
@@ -23,12 +23,14 @@ public final class EightPuzzle {
     // |6|7|8|
     public EightPuzzle(int[] initialState) {
         checkState(initialState);
-        this.currentState = StateHelper.fromArray(initialState);
+        // TODO: Is storing the state in a long (states need 4 * 9 bits = 36bits) better?
+        //  Do it later and see how the improvement looks like.
+        this.currentState = Arrays.copyOf(initialState, initialState.length);
         this.emptyIndex = getEmptyIndex();
     }
 
-    private EightPuzzle(long initialState, int emptyIndex) {
-        this.currentState = initialState;
+    private EightPuzzle(int[] initialState, int emptyIndex) {
+        this.currentState = initialState.clone();
         this.emptyIndex = emptyIndex;
     }
 
@@ -51,17 +53,32 @@ public final class EightPuzzle {
     }
 
     public int getNumberAtIndex(int index) {
-        return StateHelper.getAtIndex(index, currentState);
+        return currentState[index];
     }
 
     // Called ONLY once in the constructor and result stored in emptyIndex field.
     private int getEmptyIndex() {
-        for (int i = 0; i < 9; i++) {
-            if (getNumberAtIndex(i) == 0) {
+        for (int i = 0; i < currentState.length; i++) {
+            if (currentState[i] == 0) {
                 return i;
             }
         }
         throw new IllegalStateException("State doesn't contain a zero (blank tile).");
+    }
+
+    public EightPuzzle takeAction(Action action, int emptyIndex) {
+        var newEmptyIndex = switch (action) {
+            case UP -> emptyIndex - SIDE_LENGTH;
+            case DOWN -> emptyIndex + SIDE_LENGTH;
+            case LEFT -> emptyIndex - 1;
+            case RIGHT -> emptyIndex + 1;
+            default -> throw new IllegalArgumentException("Model.Action can only be UP, DOWN, LEFT, or RIGHT.");
+        };
+
+        var newState = currentState.clone();
+        newState[emptyIndex] = newState[newEmptyIndex];
+        newState[newEmptyIndex] = 0;
+        return new EightPuzzle(newState);
     }
 
     public int[] arrayCoordinateToBoardCoordinates(int x) {
@@ -76,7 +93,7 @@ public final class EightPuzzle {
 
     public Iterable<EightPuzzle> getNeighbours() {
         int[] blankCoordinate = arrayCoordinateToBoardCoordinates(emptyIndex);
-        List<EightPuzzle> neighbourBoards = new ArrayList<>(4);
+        List<EightPuzzle> neigbourBoards = new ArrayList<>(4);
         for (int i = 0; i < 4; i++) {
             if ((blankCoordinate[0] + TRANSLATION_ARR[i] > -1 &&
                     blankCoordinate[0] + TRANSLATION_ARR[i] < SIDE_LENGTH) &&
@@ -87,23 +104,24 @@ public final class EightPuzzle {
                         blankCoordinate[0] + TRANSLATION_ARR[i],
                         blankCoordinate[1] + TRANSLATION_ARR[SIDE_LENGTH - i]);
 
-                long newState = StateHelper.setAtIndex(emptyIndex, getNumberAtIndex(newBlankCoordinate), currentState);
-                newState = StateHelper.setAtIndex(newBlankCoordinate, 0, newState);
-                var newBoard = new EightPuzzle(newState, newBlankCoordinate);
+                var newBoard = new EightPuzzle(this.currentState, newBlankCoordinate);
 
-                neighbourBoards.add(newBoard);
+                newBoard.currentState[emptyIndex] = newBoard.currentState[newBlankCoordinate];
+                newBoard.currentState[newBlankCoordinate] = 0;
+
+                neigbourBoards.add(newBoard);
             }
         }
-        return neighbourBoards;
+        return neigbourBoards;
     }
 
     public boolean isSolvable() {
         int inversions = 0;
-        for (int i = 0; i < 9; i++) {
-            if (i == emptyIndex) continue;
-            for (int j = i + 1; j < 9; j++) {
-                if (j == emptyIndex) continue;
-                if (StateHelper.getAtIndex(j, currentState) > StateHelper.getAtIndex(i, currentState)) {
+        for (int i = 0; i < currentState.length; i++) {
+            if (currentState[i] == 0) continue;
+            for (int j = i + 1; j < currentState.length; j++) {
+                if (currentState[j] == 0) continue;
+                if (currentState[j] > currentState[i]) {
                     inversions++;
                 }
             }
@@ -112,7 +130,12 @@ public final class EightPuzzle {
     }
 
     public boolean isGoalState() {
-        return currentState == 0x876543210L;
+        for (int i = 0; i < currentState.length; i++) {
+            if (currentState[i] != i) {
+                return false;
+            }
+        }
+        return true;
     }
 
     @Override
@@ -120,11 +143,25 @@ public final class EightPuzzle {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         EightPuzzle that = (EightPuzzle) o;
-        return currentState == that.currentState;
+        return Arrays.equals(currentState, that.currentState);
     }
 
     @Override
     public int hashCode() {
-        return Long.hashCode(currentState);
+        return Arrays.hashCode(currentState);
     }
+
+    @Override
+    public String toString() {
+        StringBuilder s = new StringBuilder();
+        for (int i = 0; i < currentState.length; i++) {
+            s.append(String.format("%2d ", currentState[i]));
+            if ((i + 1) % SIDE_LENGTH == 0) {
+                s.append("\n");
+            }
+        }
+        s.append("\n");
+        return s.toString();
+    }
+
 }
